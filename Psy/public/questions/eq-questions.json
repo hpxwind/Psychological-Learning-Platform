@@ -1,0 +1,86 @@
+{
+  "scale_id": 3,
+  "scale_title": "艾森克人格问卷",
+  "questions": [
+    { "id": "q1", "title": "你是否能能够在没有抱怨的情况下，长时间地站立？", "options": [
+      { "label": "能", "value": 1 },
+      { "label": "不能", "value": 0 }
+    ]},
+    { "id": "q2", "title": "你是否会因为一些不重要的事情而失眠？", "options": [
+      { "label": "会", "value": 1 },
+      { "label": "不会", "value": 0 }
+    ]},
+    { "id": "q3", "title": "你是否能很容易地帮助陌生人？", "options": [
+      { "label": "能", "value": 1 },
+      { "label": "不能", "value": 0 }
+    ]},
+    { "id": "q4", "title": "你是否很容易害羞？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q5", "title": "你在做决定时是否常常犹豫不决？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q6", "title": "你是一个善于交际的人吗？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q7", "title": "你曾经无缘无故地觉得“真是难受”吗？", "options": [
+      { "label": "有过", "value": 1 },
+      { "label": "从来没有", "value": 0 }
+    ]},
+    { "id": "q8", "title": "你是否有克制的习惯？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q9", "title": "如果事情不是顺利，你是否容易变得不耐心和烦恼？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q10", "title": "你是一个喜欢安静的人吗？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q11", "title": "你是否会经常陷入一些无望的念头中？", "options": [
+      { "label": "会", "value": 1 },
+      { "label": "不会", "value": 0 }
+    ]},
+    { "id": "q12", "title": "你爱面子吗？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q13", "title": "你曾经食言而肥吗？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q14", "title": "你容易感到无聊吗？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q15", "title": "你很容易被别人的言语所打动吗？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q16", "title": "你是否能长时间地保持一个坐姿？", "options": [
+      { "label": "能", "value": 1 },
+      { "label": "不能", "value": 0 }
+    ]},
+    { "id": "q17", "title": "你是否有难以解释的抽搐？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q18", "title": "你是一个难以安定的人吗？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q19", "title": "你曾经过分地自责吗？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]},
+    { "id": "q20", "title": "你容易激动吗？", "options": [
+      { "label": "是", "value": 1 },
+      { "label": "否", "value": 0 }
+    ]}
+  ]
+}

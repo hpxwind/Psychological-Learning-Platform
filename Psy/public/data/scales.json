@@ -1,0 +1,70 @@
+{
+      "scales": [
+            {
+                  "id": 1,
+                  "title": "SCL-90 症状自评量表",
+                  "brief": "世界上最著名的心理健康测试量表之一，用于评估个人的心理健康状态",
+                  "tags": ["心理健康", "症状评估"],
+                  "category": "mental_health",
+                  "cover_image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1920&q=80",
+                  "question_count": 50,
+                  "report_path": "/reports/scl90-report.md",
+                  "questions_path": "/questions/scl90-questions.json"
+            },
+            {
+                  "id": 2,
+                  "title": "气质分类量表",
+                  "brief": "性格与个性测评，了解您的气质类型",
+                  "tags": ["性格测试", "个性测评"],
+                  "category": "personality",
+                  "cover_image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&q=80",
+                  "question_count": 20,
+                  "report_path": "/reports/temperament-report.md",
+                  "questions_path": "/questions/temperament-questions.json"
+            },
+            {
+                  "id": 3,
+                  "title": "艾森克人格问卷",
+                  "brief": "测量人格的三个基本维度：内外向、精神质、神经质",
+                  "tags": ["人格测试", "心理学量表"],
+                  "category": "personality",
+                  "cover_image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1920&q=80",
+                  "question_count": 88,
+                  "report_path": "/reports/eq-report.md",
+                  "questions_path": "/questions/eq-questions.json"
+            },
+            {
+                  "id": 4,
+                  "title": "抑郁自评量表(SDS)",
+                  "brief": "用于评估抑郁状态的严重程度",
+                  "tags": ["抑郁筛查", "情绪评估"],
+                  "category": "emotion",
+                  "cover_image": "https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=1920&q=80",
+                  "question_count": 20,
+                  "report_path": "/reports/sds-report.md",
+                  "questions_path": "/questions/sds-questions.json"
+            },
+            {
+                  "id": 5,
+                  "title": "焦虑自评量表(SAS)",
+                  "brief": "评估焦虑状态的严重程度",
+                  "tags": ["焦虑筛查", "情绪评估"],
+                  "category": "emotion",
+                  "cover_image": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80",
+                  "question_count": 20,
+                  "report_path": "/reports/sas-report.md",
+                  "questions_path": "/questions/sas-questions.json"
+            },
+            {
+                  "id": 6,
+                  "title": "MBTI职业性格测试",
+                  "brief": "国际权威的性格测评工具，帮助您了解自己的性格类型与职业倾向",
+                  "tags": ["性格测试", "职业规划", "人格类型"],
+                  "category": "personality",
+                  "cover_image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&q=80",
+                  "question_count": 93,
+                  "report_path": "/reports/mbti-report.md",
+                  "questions_path": "/questions/mbti-questions.json"
+            }
+      ]
+}

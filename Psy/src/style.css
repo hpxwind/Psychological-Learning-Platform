@@ -1,0 +1,288 @@
+/* Collage Art (拼贴艺术风) Global Styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 5层网格背景 */
+.bg-grid {
+  background-color: #f5f0e8 !important;
+  background-image:
+    /* 网格1: 100px x 4个 - 4种透明颜色 */
+    repeating-linear-gradient(0deg, rgba(231,76,60,0.06) 0px, rgba(231,76,60,0.06) 1px, transparent 1px, transparent 25px),
+    repeating-linear-gradient(90deg, rgba(231,76,60,0.06) 0px, rgba(231,76,60,0.06) 1px, transparent 1px, transparent 25px),
+    repeating-linear-gradient(0deg, transparent 0px, transparent 24px, rgba(52,152,219,0.05) 24px, rgba(52,152,219,0.05) 25px),
+    repeating-linear-gradient(90deg, transparent 0px, transparent 24px, rgba(52,152,219,0.05) 24px, rgba(52,152,219,0.05) 25px),
+    repeating-linear-gradient(0deg, transparent 0px, transparent 49px, rgba(243,156,18,0.04) 49px, rgba(243,156,18,0.04) 50px),
+    repeating-linear-gradient(90deg, transparent 0px, transparent 49px, rgba(243,156,18,0.04) 49px, rgba(243,156,18,0.04) 50px),
+    repeating-linear-gradient(0deg, transparent 0px, transparent 74px, rgba(155,89,182,0.03) 74px, rgba(155,89,182,0.03) 75px),
+    repeating-linear-gradient(90deg, transparent 0px, transparent 74px, rgba(155,89,182,0.03) 74px, rgba(155,89,182,0.03) 75px),
+    /* 网格2: 60px - 蓝色 */
+    repeating-linear-gradient(0deg, transparent 0px, transparent 59px, rgba(52,152,219,0.08) 59px, rgba(52,152,219,0.08) 60px),
+    repeating-linear-gradient(90deg, transparent 0px, transparent 59px, rgba(52,152,219,0.08) 59px, rgba(52,152,219,0.08) 60px),
+    /* 网格3: 40px - 黄色 */
+    repeating-linear-gradient(0deg, transparent 0px, transparent 39px, rgba(243,156,18,0.06) 39px, rgba(243,156,18,0.06) 40px),
+    repeating-linear-gradient(90deg, transparent 0px, transparent 39px, rgba(243,156,18,0.06) 39px, rgba(243,156,18,0.06) 40px),
+    /* 网格4: 25px - 紫色 */
+    repeating-linear-gradient(0deg, transparent 0px, transparent 24px, rgba(155,89,182,0.05) 24px, rgba(155,89,182,0.05) 25px),
+    repeating-linear-gradient(90deg, transparent 0px, transparent 24px, rgba(155,89,182,0.05) 24px, rgba(155,89,182,0.05) 25px),
+    /* 网格5: 15px - 深灰色 */
+    repeating-linear-gradient(0deg, transparent 0px, transparent 14px, rgba(0,0,0,0.04) 14px, rgba(0,0,0,0.04) 15px),
+    repeating-linear-gradient(90deg, transparent 0px, transparent 14px, rgba(0,0,0,0.04) 14px, rgba(0,0,0,0.04) 15px) !important;
+  background-attachment: fixed !important;
+  min-height: 100vh !important;
+}
+
+:root {
+  --col-dark: #2d2d2d;
+  --col-paper: #f5f0e8;
+  --col-red: #e74c3c;
+  --col-blue: #3498db;
+  --col-yellow: #f39c12;
+  --col-purple: #9b59b6;
+  --color-primary: #2d2d2d;
+  --color-secondary: #f5f0e8;
+  --color-accent-red: #e74c3c;
+  --color-accent-blue: #3498db;
+  --color-accent-orange: #f39c12;
+  --color-accent-purple: #9b59b6;
+  --color-background: #f5f0e8;
+  --color-foreground: #000000;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* === Collage Art Card Styles === */
+
+/* 拼贴卡片 - 带旋转和胶带效果 */
+.col-card {
+  position: relative;
+  background: #fff;
+  border: 2px solid var(--col-dark);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+/* 不同旋转角度 */
+.col-card:nth-child(6n+1) { transform: rotate(-1deg); }
+.col-card:nth-child(6n+2) { transform: rotate(0.5deg); }
+.col-card:nth-child(6n+3) { transform: rotate(-0.5deg); }
+.col-card:nth-child(6n+4) { transform: rotate(1deg); }
+.col-card:nth-child(6n+5) { transform: rotate(-0.8deg); }
+.col-card:nth-child(6n+6) { transform: rotate(0.3deg); }
+
+.col-card:hover {
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.15);
+}
+
+/* 胶带装饰 - 左上角 */
+.col-card::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 20px;
+  width: 60px;
+  height: 18px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(243, 156, 18, 0.6) 0px,
+    rgba(243, 156, 18, 0.6) 4px,
+    rgba(255,255,255,0.3) 4px,
+    rgba(255,255,255,0.3) 8px
+  );
+  transform: rotate(-3deg);
+  z-index: 10;
+}
+
+/* 不同颜色的胶带 */
+.col-card:nth-child(4n+2)::before {
+  background: repeating-linear-gradient(90deg, rgba(52, 152, 219, 0.6) 0px, rgba(52, 152, 219, 0.6) 4px, rgba(255,255,255,0.3) 4px, rgba(255,255,255,0.3) 8px);
+}
+.col-card:nth-child(4n+3)::before {
+  background: repeating-linear-gradient(90deg, rgba(155, 89, 182, 0.6) 0px, rgba(155, 89, 182, 0.6) 4px, rgba(255,255,255,0.3) 4px, rgba(255,255,255,0.3) 8px);
+}
+.col-card:nth-child(4n+4)::before {
+  background: repeating-linear-gradient(90deg, rgba(231, 76, 60, 0.6) 0px, rgba(231, 76, 60, 0.6) 4px, rgba(255,255,255,0.3) 4px, rgba(255,255,255,0.3) 8px);
+}
+
+/* 底部彩色边条 */
+.col-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--col-yellow);
+}
+
+.col-card:nth-child(4n+2)::after { background: var(--col-blue); }
+.col-card:nth-child(4n+3)::after { background: var(--col-purple); }
+.col-card:nth-child(4n+4)::after { background: var(--col-red); }
+
+/* 分类标签 */
+.col-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--col-red);
+  margin-bottom: 0.5rem;
+}
+
+/* 标题样式 */
+.col-title {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--col-dark);
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+/* 描述文字 */
+.col-desc {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Torn paper edge clip-path */
+.col-torn {
+  clip-path: polygon(
+    0% 3%, 5% 0%, 12% 4%, 20% 1%, 28% 3%, 35% 0%, 42% 2%, 50% 0%,
+    58% 3%, 65% 1%, 72% 4%, 80% 0%, 88% 2%, 95% 0%, 100% 3%,
+    100% 97%, 95% 100%, 88% 98%, 80% 100%, 72% 97%, 65% 100%,
+    58% 98%, 50% 100%, 42% 97%, 35% 100%, 28% 98%, 20% 100%,
+    12% 97%, 5% 100%, 0% 98%
+  );
+}
+
+/* Washi tape decoration */
+.col-tape {
+  position: relative;
+}
+.col-tape::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 20%;
+  width: 80px;
+  height: 20px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--col-yellow) 0px,
+    var(--col-yellow) 3px,
+    rgba(255,255,255,0.3) 3px,
+    rgba(255,255,255,0.3) 6px
+  );
+  opacity: 0.7;
+  transform: rotate(2deg);
+}
+
+/* Paper lift effect */
+.col-paper-lift {
+  transition: all 0.2s ease-out;
+}
+
+.col-paper-lift:hover {
+  transform: translateY(-8px) scale(1.02) rotate(-1deg);
+  box-shadow: 12px 12px 0 var(--col-red);
+}
+
+.col-paper-lift:active {
+  transform: translateY(2px) scale(0.98) rotate(1deg);
+  box-shadow: 2px 2px 0 var(--col-red);
+}
+
+/* Stamp decoration */
+.col-stamp {
+  border: 3px dashed var(--col-dark);
+  padding: 8px;
+  position: relative;
+}
+
+/* Newspaper column text */
+.col-newspaper {
+  font-family: 'Times New Roman', serif;
+  line-height: 1.2;
+  columns: 2;
+  column-gap: 20px;
+  column-rule: 1px solid var(--col-dark);
+}
+
+/* === Collage Art Utility Classes === */
+
+/* 页面标题样式 - 拼贴艺术风 */
+.page-title {
+  color: var(--color-primary);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+/* 卡片悬停效果 */
+.card-brutal {
+  transition: all 0.2s ease-out;
+}
+
+.card-brutal:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px 0px rgba(0,0,0,1);
+}
+
+/* 按钮样式 */
+.btn-brutal {
+  @apply px-6 py-3 font-bold bg-primary text-white border-2 border-black shadow-brutal transition-all;
+}
+
+.btn-brutal:hover {
+  transform: translate(-2px, -2deg);
+  box-shadow: 6px 6px 0px 0px rgba(0,0,0,1);
+}
+
+.btn-brutal:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+
+/* 标签样式 */
+.tag-red {
+  @apply px-3 py-1 text-sm font-bold bg-accent-red text-white;
+}
+
+.tag-blue {
+  @apply px-3 py-1 text-sm font-bold bg-accent-blue text-white;
+}
+
+.tag-orange {
+  @apply px-3 py-1 text-sm font-bold bg-accent-orange text-white;
+}
+
+.tag-purple {
+  @apply px-3 py-1 text-sm font-bold bg-accent-purple text-white;
+}
+
+/* 输入框样式 */
+.input-brutal {
+  @apply w-full px-4 py-3 border-2 border-black bg-white text-black placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue/50;
+}
+
+/* Element Plus 覆盖样式 */
+.el-button--primary {
+  --el-button-bg-color: var(--color-primary);
+  --el-button-border-color: var(--color-primary);
+  --el-button-hover-bg-color: #404040;
+  --el-button-hover-border-color: #404040;
+}
+
+.el-tabs__item {
+  color: var(--color-text-secondary);
+}
+
+.el-tabs__item.is-active {
+  color: var(--color-primary);
+}
