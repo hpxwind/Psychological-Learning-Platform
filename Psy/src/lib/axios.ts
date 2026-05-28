@@ -23,10 +23,14 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response && error.response.status === 401) {
-      // Handle unauthorized (logout, redirect)
-      localStorage.removeItem('token');
-      // window.location.href = '/admin/login'; // Optional: Redirect to login
+    if (error.response) {
+      const status = error.response.status;
+      if (status === 401 || status === 403) {
+        // Token expired or invalid - clear auth state
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        // window.location.href = '/admin/login'; // Optional: Redirect to login
+      }
     }
     return Promise.reject(error);
   }

@@ -42,6 +42,12 @@
             心理自测
           </router-link>
           <router-link 
+            to="/celebrity-chat" 
+            class="px-4 py-2 text-primary hover:bg-secondary transition-colors border-2 border-transparent hover:border-black"
+          >
+            与名人对话
+          </router-link>
+          <router-link 
             to="/search" 
             class="px-4 py-2 text-primary hover:bg-secondary transition-colors border-2 border-transparent hover:border-black flex items-center gap-2"
           >
@@ -62,12 +68,13 @@
           <router-link to="/books" @click="mobileMenuOpen = false" class="px-4 py-3 text-primary hover:bg-secondary font-bold uppercase border-2 border-transparent hover:border-black">图书推荐</router-link>
           <router-link to="/videos" @click="mobileMenuOpen = false" class="px-4 py-3 text-primary hover:bg-secondary font-bold uppercase border-2 border-transparent hover:border-black">视频资料</router-link>
           <router-link to="/self-test" @click="mobileMenuOpen = false" class="px-4 py-3 text-primary hover:bg-secondary font-bold uppercase border-2 border-transparent hover:border-black">心理自测</router-link>
+          <router-link to="/celebrity-chat" @click="mobileMenuOpen = false" class="px-4 py-3 text-primary hover:bg-secondary font-bold uppercase border-2 border-transparent hover:border-black">与名人对话</router-link>
           <router-link to="/search" @click="mobileMenuOpen = false" class="px-4 py-3 text-primary hover:bg-secondary font-bold uppercase border-2 border-transparent hover:border-black">搜索</router-link>
         </nav>
       </div>
     </header>
 
-    <main :class="hideLayout ? 'flex-1 w-full' : 'flex-1 w-full px-6 md:px-10 lg:px-20 py-10 relative z-10 max-w-[1400px] mx-auto'">
+    <main :class="hideLayout ? 'flex-1 w-full overflow-hidden' : 'flex-1 w-full px-6 md:px-10 lg:px-20 py-10 relative z-10 max-w-[1400px] mx-auto'">
       <router-view v-slot="{ Component, route }">
         <transition name="fade" mode="out-in">
           <component :is="Component" :key="route.fullPath" />
@@ -98,8 +105,8 @@ import { Search, Menu } from '@element-plus/icons-vue';
 const route = useRoute();
 const mobileMenuOpen = ref(false);
 
-// AI聊天页面和后台管理页面隐藏Layout的header和footer
-const hideLayout = computed(() => route.path === '/ai-chat' || route.meta.noLayout);
+// AI聊天页面、名人对话页面和后台管理页面隐藏Layout的header和footer
+const hideLayout = computed(() => route.path === '/ai-chat' || route.path === '/celebrity-chat' || route.meta.noLayout);
 </script>
 
 <style scoped>

@@ -1,6 +1,6 @@
 # Psychology Knowledge Base
 
-A knowledge platform integrating psychological effects, book recommendations, video learning, AI chat, and self-assessment tests.
+A knowledge platform integrating psychological effects, book recommendations, video learning, AI chat, celebrity chat, global search, and self-assessment tests.
 
 ## Tech Stack
 
@@ -12,6 +12,7 @@ A knowledge platform integrating psychological effects, book recommendations, vi
 - Pinia (state management)
 - Vue Router 4
 - marked + DOMPurify (Markdown rendering)
+- Google Fonts (Playfair Display)
 
 ### Backend (Psy_back/)
 - Express.js + TypeScript
@@ -25,11 +26,14 @@ A knowledge platform integrating psychological effects, book recommendations, vi
 | Module | Description |
 |--------|-------------|
 | Effects Library | Browse and search psychological effects with Markdown detail pages and background images |
+| Daily Effect | A featured psychological effect displayed on the homepage, refreshed daily |
 | Book Recommendations | Psychology book showcase and recommendations |
 | Video Learning | Bilibili video series with episode playback |
 | AI Chat | Psychology Q&A powered by Tencent Hunyuan |
-| Self-Assessment | Multiple psychological scales with auto scoring and interpretation |
-| Admin Dashboard | Content management for effects, books, and videos |
+| Celebrity Chat | Chat with famous psychologists and thinkers, with auto-playing photo carousel |
+| Self-Assessment | Multiple psychological scales with auto scoring, interpretation, and AI-powered analysis |
+| Global Search | Cross-module full-text search across effects, books, videos, and celebrities |
+| Admin Dashboard | Content management for effects, books, videos, celebrities, and scales |
 
 ## Quick Start
 
@@ -82,18 +86,40 @@ Frontend runs at `http://localhost:5173`
 Psychology/
 ├── Psy/              # Vue frontend
 │   └── src/
-│       ├── pages/    # Page components
-│       ├── lib/      # Utilities (API, Markdown, etc.)
+│       ├── pages/    # Page components (17 pages)
+│       ├── components/ # Shared components (Layout, etc.)
+│       ├── lib/      # Utilities (axios, Markdown, etc.)
 │       ├── stores/   # Pinia stores
-│       ├── router/   # Route config
+│       ├── router/   # Route config (16 routes)
 │       └── assets/   # Static assets
 ├── Psy_back/         # Express backend
 │   └── api/
 │       ├── server.ts # Entry point
-│       ├── routes/   # API routes
+│       ├── routes/   # API routes (11 modules)
 │       └── controllers/ # Controllers
 └── Paga/             # Content source (effect descriptions, experiments, etc.)
 ```
+
+## API Routes
+
+| Route | Method | Auth | Description |
+|-------|--------|------|-------------|
+| `/api/effects` | GET | No | List psychological effects |
+| `/api/effects/:id` | GET | No | Effect detail |
+| `/api/daily-effect` | GET | No | Daily featured effect |
+| `/api/books` | GET | No | Book list |
+| `/api/books/:id` | GET | No | Book detail |
+| `/api/videos/series` | GET | No | Video series list |
+| `/api/famous` | GET | No | Celebrity list |
+| `/api/famous/:id` | GET | No | Celebrity detail |
+| `/api/scales` | GET | No | Assessment scales |
+| `/api/scales/questions` | GET | No | Scale questions |
+| `/api/scales/report` | GET | No | Scale report |
+| `/api/scale-analyze` | POST | No | AI-powered scale analysis |
+| `/api/search` | GET | No | Global full-text search |
+| `/api/ai/chat` | POST | No | AI chat (Hunyuan) |
+| `/api/auth/login` | POST | No | Admin login |
+| `/api/upload/media` | POST | Admin | Image upload |
 
 ## Build & Deploy
 

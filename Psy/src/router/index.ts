@@ -16,6 +16,7 @@ import ScaleIntroPage from '@/pages/ScaleIntroPage.vue'
 import ScaleReportPage from '@/pages/ScaleReportPage.vue'
 import ScaleTestPage from '@/pages/ScaleTestPage.vue'
 import TestResultPage from '@/pages/TestResultPage.vue'
+import CelebrityChatPage from '@/pages/CelebrityChatPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -27,6 +28,11 @@ const routes: RouteRecordRaw[] = [
     path: '/ai-chat',
     name: 'ai-chat',
     component: AIFullChatPage,
+  },
+  {
+    path: '/celebrity-chat',
+    name: 'celebrity-chat',
+    component: CelebrityChatPage,
   },
   {
     path: '/self-test',

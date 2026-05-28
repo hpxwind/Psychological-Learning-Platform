@@ -274,6 +274,40 @@ LOCK TABLES `video_series` WRITE;
 INSERT INTO `video_series` VALUES (1,'精神分析系列',NULL,'羲北偏北','bilibili',NULL,'psychology','精神分析初级教程系列','{\"content\": \"系统讲解精神分析基础知识\"}',0,1,'2026-04-04 20:45:41','2026-04-04 20:45:41');
 /*!40000 ALTER TABLE `video_series` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `famous_people`
+--
+
+DROP TABLE IF EXISTS `famous_people`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `famous_people` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL COMMENT '姓名（MD格式）',
+  `introduction` text COMMENT '简介（MD格式）',
+  `life_story` text COMMENT '生平（MD格式）',
+  `works` text COMMENT '著作（MD格式）',
+  `photo` varchar(500) DEFAULT NULL COMMENT '人物照片URL',
+  `status_idle` varchar(500) DEFAULT NULL COMMENT '状态照片-无动作',
+  `status_listening` varchar(500) DEFAULT NULL COMMENT '状态照片-聆听',
+  `status_thinking` varchar(500) DEFAULT NULL COMMENT '状态照片-思考',
+  `status_answered` varchar(500) DEFAULT NULL COMMENT '状态照片-思考出答案',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_name` (`name`(100))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `famous_people`
+--
+
+LOCK TABLES `famous_people` WRITE;
+/*!40000 ALTER TABLE `famous_people` DISABLE KEYS */;
+/*!40000 ALTER TABLE `famous_people` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

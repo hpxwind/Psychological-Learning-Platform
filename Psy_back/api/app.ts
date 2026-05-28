@@ -21,6 +21,7 @@ import aiRoutes from './routes/ai.js'
 import videoRoutes from './routes/videos.js'
 import scaleAnalyzeRoutes from './routes/scaleAnalyze.js'
 import scaleRoutes from './routes/scales.js'
+import famousRoutes from './routes/famous.js'
 
 // for esm mode
 const __filename = fileURLToPath(import.meta.url)
@@ -58,6 +59,7 @@ app.use('/api/ai', aiRoutes)
 app.use('/api/videos', videoRoutes)
 app.use('/api/scale', scaleAnalyzeRoutes)
 app.use('/api/scales', scaleRoutes)
+app.use('/api/famous', famousRoutes)
 
 /**
  * health

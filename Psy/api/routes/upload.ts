@@ -26,18 +26,39 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
-
-router.post('/media', authenticateToken, upload.single('file'), (req, res) => {
-  if (!req.file) {
-    res.status(400).json({ success: false, message: 'No file uploaded' });
-    return;
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 8 * 1024 * 1024 }, // 8MB
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('只允许上传图片文件'));
+    }
   }
-  
-  // Return the URL to access the file
-  // Assuming public folder is served as static
-  const fileUrl = `/uploads/${req.file.filename}`;
-  res.json({ success: true, url: fileUrl });
+});
+
+router.post('/media', authenticateToken, (req, res) => {
+  upload.single('file')(req, res, (err) => {
+    if (err) {
+      if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+          res.status(413).json({ success: false, message: '图片大小不能超过 8MB' });
+          return;
+        }
+        res.status(400).json({ success: false, message: `上传错误: ${err.message}` });
+        return;
+      }
+      res.status(400).json({ success: false, message: err.message });
+      return;
+    }
+    if (!req.file) {
+      res.status(400).json({ success: false, message: 'No file uploaded' });
+      return;
+    }
+    const fileUrl = `/uploads/${req.file.filename}`;
+    res.json({ success: true, url: fileUrl });
+  });
 });
 
 export default router;

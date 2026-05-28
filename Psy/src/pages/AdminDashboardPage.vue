@@ -91,6 +91,52 @@
           </el-table>
         </el-tab-pane>
 
+        <el-tab-pane label="名人管理">
+          <div class="mb-4">
+            <el-button type="primary" @click="openFamousDialog()">添加名人</el-button>
+          </div>
+          <el-table :data="famousPeople" style="width: 100%" v-loading="loadingFamous">
+            <el-table-column prop="id" label="ID" width="60" />
+            <el-table-column prop="name" label="姓名" min-width="120" />
+            <el-table-column label="照片" width="80">
+              <template #default="scope">
+                <img v-if="scope.row.photo" :src="scope.row.photo" class="w-10 h-10 object-cover rounded border" />
+                <span v-else class="text-gray-400">无</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="introduction" label="简介" min-width="250" show-overflow-tooltip>
+              <template #default="scope">
+                <span v-html="truncateMd(scope.row.introduction, 50)"></span>
+              </template>
+            </el-table-column>
+            <el-table-column label="状态照片" width="160">
+              <template #default="scope">
+                <div class="flex gap-1">
+                  <img v-if="scope.row.status_idle" :src="scope.row.status_idle" class="w-8 h-8 object-cover rounded border" title="无动作" />
+                  <img v-if="scope.row.status_listening" :src="scope.row.status_listening" class="w-8 h-8 object-cover rounded border" title="聆听" />
+                  <img v-if="scope.row.status_thinking" :src="scope.row.status_thinking" class="w-8 h-8 object-cover rounded border" title="思考" />
+                  <img v-if="scope.row.status_answered" :src="scope.row.status_answered" class="w-8 h-8 object-cover rounded border" title="思考出答案" />
+                  <span v-if="!scope.row.status_idle && !scope.row.status_listening && !scope.row.status_thinking && !scope.row.status_answered" class="text-gray-400 text-xs">无</span>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="180" fixed="right">
+              <template #default="scope">
+                <el-button size="small" @click="openFamousDialog(scope.row)">编辑</el-button>
+                <el-button size="small" type="danger" @click="handleDeleteFamous(scope.row.id)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="famousTotal"
+            :page-size="20"
+            @current-change="handleFamousPageChange"
+            class="mt-4"
+          />
+        </el-tab-pane>
+
         <el-tab-pane label="视频管理">
           <div class="mb-4">
             <el-button type="primary" @click="openVideoSeriesDialog()">添加视频系列</el-button>
@@ -561,6 +607,153 @@
       </template>
     </el-dialog>
 
+    <!-- Famous Person Dialog -->
+    <el-dialog v-model="famousDialogVisible" :title="isEditFamous ? '编辑名人' : '添加名人'" fullscreen>
+      <el-form :model="famousForm" label-width="100px" class="max-w-4xl mx-auto">
+        <el-form-item label="姓名" required>
+          <el-input v-model="famousForm.name" placeholder="名人姓名" />
+        </el-form-item>
+        <el-form-item label="简介">
+          <div class="mb-2">
+            <el-button size="small" type="primary" plain @click="activeMdField = 'introduction'; mdImportDialogVisible = true">📄 导入MD文件</el-button>
+          </div>
+          <MdEditor v-model="famousForm.introduction" language="zh-CN" :toolbars="mdToolbars" style="height:200px" :onUploadImg="handleEditorImageUpload" />
+        </el-form-item>
+        <el-form-item label="生平">
+          <div class="mb-2">
+            <el-button size="small" type="primary" plain @click="activeMdField = 'life_story'; mdImportDialogVisible = true">📄 导入MD文件</el-button>
+          </div>
+          <MdEditor v-model="famousForm.life_story" language="zh-CN" :toolbars="mdToolbars" style="height:250px" :onUploadImg="handleEditorImageUpload" />
+        </el-form-item>
+        <el-form-item label="著作">
+          <div class="mb-2">
+            <el-button size="small" type="primary" plain @click="activeMdField = 'works'; mdImportDialogVisible = true">📄 导入MD文件</el-button>
+          </div>
+          <MdEditor v-model="famousForm.works" language="zh-CN" :toolbars="mdToolbars" style="height:200px" :onUploadImg="handleEditorImageUpload" />
+        </el-form-item>
+        <el-divider content-position="left">照片管理</el-divider>
+        <el-form-item label="人物照片">
+          <div class="space-y-3 w-full">
+            <el-upload
+              class="cover-upload"
+              drag
+              :action="uploadUrl"
+              :headers="uploadHeaders"
+              :before-upload="beforeUpload"
+              :on-success="handleFamousPhotoSuccess"
+              :show-file-list="false"
+              accept="image/*"
+            >
+              <el-icon class="el-icon--upload" :size="40"><upload-filled /></el-icon>
+              <div class="el-upload__text mt-2">拖拽图片到此处或 <em>点击上传</em></div>
+            </el-upload>
+            <div v-if="famousForm.photo" class="flex items-center gap-3">
+              <img :src="famousForm.photo" class="w-24 h-28 object-cover border-2 border-black rounded" />
+              <el-input v-model="famousForm.photo" placeholder="或手动输入照片URL" />
+            </div>
+            <el-input v-else v-model="famousForm.photo" placeholder="或手动输入照片URL" />
+          </div>
+        </el-form-item>
+        <el-divider content-position="left">状态照片（四张）</el-divider>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <el-form-item label="无动作">
+            <div class="space-y-2 w-full">
+              <el-upload
+                class="cover-upload"
+                drag
+                :action="uploadUrl"
+                :headers="uploadHeaders"
+                :before-upload="beforeUpload"
+                :on-success="handleFamousIdleSuccess"
+                :show-file-list="false"
+                accept="image/*"
+              >
+                <el-icon class="el-icon--upload" :size="30"><upload-filled /></el-icon>
+                <div class="el-upload__text text-xs mt-1">上传无动作照片</div>
+              </el-upload>
+              <div v-if="famousForm.status_idle" class="flex items-center gap-2">
+                <img :src="famousForm.status_idle" class="w-16 h-20 object-cover border-2 border-black rounded" />
+                <el-input v-model="famousForm.status_idle" size="small" placeholder="URL" />
+              </div>
+              <el-input v-else v-model="famousForm.status_idle" size="small" placeholder="或手动输入URL" />
+            </div>
+          </el-form-item>
+          <el-form-item label="聆听">
+            <div class="space-y-2 w-full">
+              <el-upload
+                class="cover-upload"
+                drag
+                :action="uploadUrl"
+                :headers="uploadHeaders"
+                :before-upload="beforeUpload"
+                :on-success="handleFamousListeningSuccess"
+                :show-file-list="false"
+                accept="image/*"
+              >
+                <el-icon class="el-icon--upload" :size="30"><upload-filled /></el-icon>
+                <div class="el-upload__text text-xs mt-1">上传聆听照片</div>
+              </el-upload>
+              <div v-if="famousForm.status_listening" class="flex items-center gap-2">
+                <img :src="famousForm.status_listening" class="w-16 h-20 object-cover border-2 border-black rounded" />
+                <el-input v-model="famousForm.status_listening" size="small" placeholder="URL" />
+              </div>
+              <el-input v-else v-model="famousForm.status_listening" size="small" placeholder="或手动输入URL" />
+            </div>
+          </el-form-item>
+          <el-form-item label="思考">
+            <div class="space-y-2 w-full">
+              <el-upload
+                class="cover-upload"
+                drag
+                :action="uploadUrl"
+                :headers="uploadHeaders"
+                :before-upload="beforeUpload"
+                :on-success="handleFamousThinkingSuccess"
+                :show-file-list="false"
+                accept="image/*"
+              >
+                <el-icon class="el-icon--upload" :size="30"><upload-filled /></el-icon>
+                <div class="el-upload__text text-xs mt-1">上传思考照片</div>
+              </el-upload>
+              <div v-if="famousForm.status_thinking" class="flex items-center gap-2">
+                <img :src="famousForm.status_thinking" class="w-16 h-20 object-cover border-2 border-black rounded" />
+                <el-input v-model="famousForm.status_thinking" size="small" placeholder="URL" />
+              </div>
+              <el-input v-else v-model="famousForm.status_thinking" size="small" placeholder="或手动输入URL" />
+            </div>
+          </el-form-item>
+          <el-form-item label="思考出答案">
+            <div class="space-y-2 w-full">
+              <el-upload
+                class="cover-upload"
+                drag
+                :action="uploadUrl"
+                :headers="uploadHeaders"
+                :before-upload="beforeUpload"
+                :on-success="handleFamousAnsweredSuccess"
+                :show-file-list="false"
+                accept="image/*"
+              >
+                <el-icon class="el-icon--upload" :size="30"><upload-filled /></el-icon>
+                <div class="el-upload__text text-xs mt-1">上传思考出答案照片</div>
+              </el-upload>
+              <div v-if="famousForm.status_answered" class="flex items-center gap-2">
+                <img :src="famousForm.status_answered" class="w-16 h-20 object-cover border-2 border-black rounded" />
+                <el-input v-model="famousForm.status_answered" size="small" placeholder="URL" />
+              </div>
+              <el-input v-else v-model="famousForm.status_answered" size="small" placeholder="或手动输入URL" />
+            </div>
+          </el-form-item>
+        </div>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="famousDialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="saveFamous">保存</el-button>
+        </span>
+      </template>
+    </el-dialog>
+
     <!-- Episode Management Dialog -->
     <el-dialog v-model="episodeManageVisible" :title="`管理集数 - ${currentSeries?.title}`" fullscreen>
       <div class="mb-4">
@@ -666,9 +859,9 @@ const beforeUpload = (file: File) => {
     ElMessage.error('只能上传图片文件！');
     return false;
   }
-  const isLt5M = file.size / 1024 / 1024 < 5;
-  if (!isLt5M) {
-    ElMessage.error('图片大小不能超过 5MB！');
+  const isLt8M = file.size / 1024 / 1024 < 8;
+  if (!isLt8M) {
+    ElMessage.error('图片大小不能超过 8MB！');
     return false;
   }
   return true;
@@ -685,8 +878,21 @@ const handleMdFileChange = (file: any) => {
 
 const confirmMdImport = () => {
   if (mdPreview.value.length === 0) return;
-  (effectForm as any)[activeMdField.value] = mdPreview.value;
-  ElMessage.success(`已导入到${activeMdField.value === 'description' ? '简介' : activeMdField.value === 'experiment_content' ? '实验内容' : '深度解析'}字段`);
+  const fieldMap: Record<string, string> = {
+    'description': '简介',
+    'experiment_content': '实验内容',
+    'explanation': '深度解析',
+    'introduction': '简介',
+    'life_story': '生平',
+    'works': '著作',
+  };
+  // 尝试写入 famousForm 或 effectForm
+  if (activeMdField.value in famousForm) {
+    (famousForm as any)[activeMdField.value] = mdPreview.value;
+  } else if (activeMdField.value in effectForm) {
+    (effectForm as any)[activeMdField.value] = mdPreview.value;
+  }
+  ElMessage.success(`已导入到${fieldMap[activeMdField.value] || activeMdField.value}字段`);
   mdImportDialogVisible.value = false;
   mdPreview.value = '';
   mdFileList.value = [];
@@ -759,8 +965,9 @@ const saveEffect = async () => {
     }
     effectDialogVisible.value = false;
     fetchEffects();
-  } catch (error) {
-    ElMessage.error('保存失败');
+  } catch (error: any) {
+    const msg = error?.response?.data?.message || error?.message || '未知错误';
+    ElMessage.error('保存失败：' + msg);
   }
 };
 
@@ -844,8 +1051,9 @@ const saveBook = async () => {
     }
     bookDialogVisible.value = false;
     fetchBooks();
-  } catch (error) {
-    ElMessage.error('保存失败');
+  } catch (error: any) {
+    const msg = error?.response?.data?.message || error?.message || '未知错误';
+    ElMessage.error('保存失败：' + msg);
   }
 };
 
@@ -1059,8 +1267,9 @@ const saveScale = async () => {
     }
     closeScaleDialog();
     fetchScales();
-  } catch (error) {
-    ElMessage.error('保存失败');
+  } catch (error: any) {
+    const msg = error?.response?.data?.message || error?.message || '未知错误';
+    ElMessage.error('保存失败：' + msg);
   }
 };
 
@@ -1129,8 +1338,9 @@ const saveQuestions = async () => {
     ElMessage.success('题目保存成功');
     questionsDialogVisible.value = false;
     fetchScales();
-  } catch (error) {
-    ElMessage.error('保存失败');
+  } catch (error: any) {
+    const msg = error?.response?.data?.message || error?.message || '未知错误';
+    ElMessage.error('保存失败：' + msg);
   }
 };
 
@@ -1315,8 +1525,9 @@ const saveVideoSeries = async () => {
     }
     videoSeriesDialogVisible.value = false;
     fetchVideoSeries();
-  } catch (error) {
-    ElMessage.error('保存失败');
+  } catch (error: any) {
+    const msg = error?.response?.data?.message || error?.message || '未知错误';
+    ElMessage.error('保存失败：' + msg);
   }
 };
 
@@ -1428,8 +1639,9 @@ const saveVideoEpisode = async () => {
     videoEpisodeDialogVisible.value = false;
     if (currentSeries.value) openEpisodeManage(currentSeries.value);
     fetchVideoSeries();
-  } catch (error) {
-    ElMessage.error('保存失败');
+  } catch (error: any) {
+    const msg = error?.response?.data?.message || error?.message || '未知错误';
+    ElMessage.error('保存失败：' + msg);
   }
 };
 
@@ -1445,11 +1657,158 @@ const handleDeleteVideoEpisode = async (id: number) => {
   }
 };
 
+// Famous People Logic
+const famousPeople = ref([]);
+const loadingFamous = ref(false);
+const famousTotal = ref(0);
+const famousDialogVisible = ref(false);
+const isEditFamous = ref(false);
+const famousForm = reactive({
+  id: null as number | null,
+  name: '',
+  introduction: '',
+  life_story: '',
+  works: '',
+  photo: '',
+  status_idle: '',
+  status_listening: '',
+  status_thinking: '',
+  status_answered: ''
+});
+
+// 截取MD格式文本用于表格预览
+const truncateMd = (md: string, maxLen: number) => {
+  if (!md) return '';
+  const text = md.replace(/[#*`>\-\[\]()!]/g, '').replace(/\n/g, ' ');
+  return text.length > maxLen ? text.slice(0, maxLen) + '...' : text;
+};
+
+const fetchFamousPeople = async (page = 1) => {
+  loadingFamous.value = true;
+  try {
+    const res = await api.get('/famous', { params: { page, limit: 20 } });
+    if (res.data.success) {
+      famousPeople.value = res.data.data;
+      famousTotal.value = res.data.pagination.total;
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loadingFamous.value = false;
+  }
+};
+
+const openFamousDialog = async (row: any = null) => {
+  isEditFamous.value = !!row;
+  famousDialogVisible.value = true;
+  mdPreview.value = '';
+  mdFileList.value = [];
+  if (row) {
+    try {
+      const res = await api.get(`/famous/${row.id}`);
+      if (res.data.success) {
+        const detail = res.data.data;
+        Object.assign(famousForm, detail);
+      }
+    } catch (error) {
+      ElMessage.error('获取详情失败');
+    }
+  } else {
+    Object.assign(famousForm, {
+      id: null, name: '', introduction: '', life_story: '', works: '',
+      photo: '', status_idle: '', status_listening: '', status_thinking: '', status_answered: ''
+    });
+  }
+};
+
+// 名人照片上传回调
+const handleFamousPhotoSuccess = (response: any) => {
+  if (response.success && response.url) {
+    famousForm.photo = response.url;
+    ElMessage.success('人物照片上传成功');
+  }
+};
+
+const handleFamousIdleSuccess = (response: any) => {
+  if (response.success && response.url) {
+    famousForm.status_idle = response.url;
+    ElMessage.success('无动作照片上传成功');
+  }
+};
+
+const handleFamousListeningSuccess = (response: any) => {
+  if (response.success && response.url) {
+    famousForm.status_listening = response.url;
+    ElMessage.success('聆听照片上传成功');
+  }
+};
+
+const handleFamousThinkingSuccess = (response: any) => {
+  if (response.success && response.url) {
+    famousForm.status_thinking = response.url;
+    ElMessage.success('思考照片上传成功');
+  }
+};
+
+const handleFamousAnsweredSuccess = (response: any) => {
+  if (response.success && response.url) {
+    famousForm.status_answered = response.url;
+    ElMessage.success('思考出答案照片上传成功');
+  }
+};
+
+const saveFamous = async () => {
+  if (!famousForm.name.trim()) {
+    ElMessage.warning('请输入姓名');
+    return;
+  }
+  try {
+    const payload = {
+      name: famousForm.name,
+      introduction: famousForm.introduction,
+      life_story: famousForm.life_story,
+      works: famousForm.works,
+      photo: famousForm.photo,
+      status_idle: famousForm.status_idle,
+      status_listening: famousForm.status_listening,
+      status_thinking: famousForm.status_thinking,
+      status_answered: famousForm.status_answered
+    };
+    if (isEditFamous.value && famousForm.id) {
+      await api.put(`/famous/${famousForm.id}`, payload);
+      ElMessage.success('更新成功');
+    } else {
+      await api.post('/famous', payload);
+      ElMessage.success('创建成功');
+    }
+    famousDialogVisible.value = false;
+    fetchFamousPeople();
+  } catch (error: any) {
+    console.error('保存名人失败:', error);
+    const msg = error?.response?.data?.message || error?.message || '未知错误';
+    ElMessage.error('保存失败：' + msg);
+  }
+};
+
+const handleDeleteFamous = async (id: number) => {
+  try {
+    await ElMessageBox.confirm('确定删除吗?', '提示', { type: 'warning' });
+    await api.delete(`/famous/${id}`);
+    ElMessage.success('删除成功');
+    fetchFamousPeople();
+  } catch (error) {
+    if (error !== 'cancel') ElMessage.error('删除失败');
+  }
+};
+
+const handleFamousPageChange = (page: number) => fetchFamousPeople(page);
+
 onMounted(() => {
   fetchEffects();
   fetchBooks();
   fetchVideoSeries();
   fetchScales();
+  fetchFamousPeople();
 });
 </script>
 
