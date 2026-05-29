@@ -2,6 +2,51 @@ import { type Request, type Response } from 'express';
 import pool from '../config/db.js';
 import { type RowDataPacket, type ResultSetHeader } from 'mysql2';
 
+// 辅助：将某本图书关联到指定的名人
+async function syncBookToFamous(bookId: number, famousIds: number[]) {
+  if (!famousIds || famousIds.length === 0) return;
+  for (const fid of famousIds) {
+    const [rows] = await pool.query<RowDataPacket[]>(
+      'SELECT published_books FROM famous_people WHERE id = ?',
+      [fid]
+    );
+    if (rows.length === 0) continue;
+    let bookIds: number[] = [];
+    try {
+      bookIds = JSON.parse(rows[0].published_books || '[]');
+    } catch { bookIds = []; }
+    if (!Array.isArray(bookIds)) bookIds = [];
+    if (!bookIds.includes(bookId)) {
+      bookIds.push(bookId);
+      await pool.query(
+        'UPDATE famous_people SET published_books = ? WHERE id = ?',
+        [JSON.stringify(bookIds), fid]
+      );
+    }
+  }
+}
+
+// 辅助：从所有名人中移除某本图书的关联
+async function removeBookFromFamous(bookId: number) {
+  const [rows] = await pool.query<RowDataPacket[]>(
+    'SELECT id, published_books FROM famous_people WHERE published_books LIKE ?',
+    [`%${bookId}%`]
+  );
+  for (const row of rows) {
+    try {
+      const bookIds: number[] = JSON.parse(row.published_books || '[]');
+      if (!Array.isArray(bookIds)) continue;
+      const newIds = bookIds.filter((id: number) => id !== bookId);
+      if (newIds.length !== bookIds.length) {
+        await pool.query(
+          'UPDATE famous_people SET published_books = ? WHERE id = ?',
+          [JSON.stringify(newIds), row.id]
+        );
+      }
+    } catch { /* ignore */ }
+  }
+}
+
 const normalizeDateToMysqlDate = (value: unknown): string | null => {
   if (value === null || value === undefined) return null;
   if (typeof value === 'string') {
@@ -102,6 +147,22 @@ export const getBookById = async (req: Request, res: Response): Promise<void> =>
       book.summary = summaryRows[0].summary_content;
     }
 
+    // 查找关联此图书的名人
+    const [famousRows] = await pool.query<RowDataPacket[]>(
+      'SELECT id FROM famous_people WHERE published_books LIKE ?',
+      [`%${id}%`]
+    );
+    const famousIds: number[] = [];
+    for (const f of famousRows) {
+      try {
+        const ids: number[] = JSON.parse(f.published_books || '[]');
+        if (Array.isArray(ids) && ids.includes(Number(id))) {
+          famousIds.push(f.id);
+        }
+      } catch { /* ignore */ }
+    }
+    book.famous_ids = famousIds;
+
     res.json({ success: true, book });
   } catch (error) {
     console.error('Get book error:', error);
@@ -112,7 +173,7 @@ export const getBookById = async (req: Request, res: Response): Promise<void> =>
 // 创建图书
 export const createBook = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { title, author, isbn, publisher, publish_date, cover_image, ebook_url, summary } = req.body;
+    const { title, author, isbn, publisher, publish_date, cover_image, ebook_url, summary, famous_ids } = req.body;
     const normalizedPublishDate = normalizeDateToMysqlDate(publish_date);
     if (!normalizedPublishDate) {
       res.status(400).json({ success: false, message: 'Invalid publish_date. Expected YYYY-MM-DD.' });
@@ -134,6 +195,11 @@ export const createBook = async (req: Request, res: Response): Promise<void> => 
       );
     }
 
+    // 同步关联到名人
+    if (Array.isArray(famous_ids) && famous_ids.length > 0) {
+      await syncBookToFamous(bookId, famous_ids);
+    }
+
     res.status(201).json({ success: true, message: 'Book created', id: bookId });
   } catch (error) {
     console.error('Create book error:', error);
@@ -145,7 +211,7 @@ export const createBook = async (req: Request, res: Response): Promise<void> => 
 export const updateBook = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { title, author, isbn, publisher, publish_date, cover_image, ebook_url, summary } = req.body;
+    const { title, author, isbn, publisher, publish_date, cover_image, ebook_url, summary, famous_ids } = req.body;
     const normalizedPublishDate = normalizeDateToMysqlDate(publish_date);
     if (!normalizedPublishDate) {
       res.status(400).json({ success: false, message: 'Invalid publish_date. Expected YYYY-MM-DD.' });
@@ -159,9 +225,8 @@ export const updateBook = async (req: Request, res: Response): Promise<void> => 
     );
 
     if (summary) {
-      // 检查是否存在简介
       const [existingSummary] = await pool.query<RowDataPacket[]>('SELECT id FROM book_summaries WHERE book_id = ?', [id]);
-      
+
       if (existingSummary.length > 0) {
         await pool.query(
           'UPDATE book_summaries SET summary_content = ? WHERE book_id = ?',
@@ -173,6 +238,11 @@ export const updateBook = async (req: Request, res: Response): Promise<void> => 
           [id, JSON.stringify(summary)]
         );
       }
+    }
+
+    // 同步关联到名人
+    if (Array.isArray(famous_ids) && famous_ids.length > 0) {
+      await syncBookToFamous(Number(id), famous_ids);
     }
 
     res.json({ success: true, message: 'Book updated' });
@@ -187,6 +257,8 @@ export const deleteBook = async (req: Request, res: Response): Promise<void> => 
   try {
     const { id } = req.params;
     await pool.query('DELETE FROM books WHERE id = ?', [id]);
+    // 从名人关联中移除
+    await removeBookFromFamous(Number(id));
     res.json({ success: true, message: 'Book deleted' });
   } catch (error) {
     console.error('Delete book error:', error);

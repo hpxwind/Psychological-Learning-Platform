@@ -17,6 +17,9 @@ import ScaleReportPage from '@/pages/ScaleReportPage.vue'
 import ScaleTestPage from '@/pages/ScaleTestPage.vue'
 import TestResultPage from '@/pages/TestResultPage.vue'
 import CelebrityChatPage from '@/pages/CelebrityChatPage.vue'
+import CelebrityDetailPage from '@/pages/CelebrityDetailPage.vue'
+import CelebrityChatFullPage from '@/pages/CelebrityChatFullPage.vue'
+import CelebrityDetailInfoPage from '@/pages/CelebrityDetailInfoPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -33,6 +36,24 @@ const routes: RouteRecordRaw[] = [
     path: '/celebrity-chat',
     name: 'celebrity-chat',
     component: CelebrityChatPage,
+  },
+  {
+    path: '/celebrity/:id',
+    name: 'celebrity-detail',
+    component: CelebrityDetailPage,
+    meta: { noLayout: true },
+  },
+  {
+    path: '/celebrity/:id/chat',
+    name: 'celebrity-chat-full',
+    component: CelebrityChatFullPage,
+    meta: { noLayout: true },
+  },
+  {
+    path: '/celebrity/:id/info',
+    name: 'celebrity-detail-info',
+    component: CelebrityDetailInfoPage,
+    meta: { noLayout: true },
   },
   {
     path: '/self-test',

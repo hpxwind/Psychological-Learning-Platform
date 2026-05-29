@@ -301,6 +301,22 @@
         <el-form-item label="简介">
           <el-input v-model="bookForm.summary_intro" type="textarea" :rows="4" />
         </el-form-item>
+        <el-form-item label="关联名人">
+          <el-select
+            v-model="bookForm.famous_ids"
+            multiple
+            filterable
+            placeholder="选择关联的名人"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="f in allFamous"
+              :key="f.id"
+              :label="f.name"
+              :value="f.id"
+            />
+          </el-select>
+        </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -608,7 +624,7 @@
     </el-dialog>
 
     <!-- Famous Person Dialog -->
-    <el-dialog v-model="famousDialogVisible" :title="isEditFamous ? '编辑名人' : '添加名人'" fullscreen>
+    <el-dialog v-model="famousDialogVisible" :title="isEditFamous ? '编辑名人' : '添加名人'" fullscreen destroy-on-close :key="famousDialogKey">
       <el-form :model="famousForm" label-width="100px" class="max-w-4xl mx-auto">
         <el-form-item label="姓名" required>
           <el-input v-model="famousForm.name" placeholder="名人姓名" />
@@ -631,6 +647,66 @@
           </div>
           <MdEditor v-model="famousForm.works" language="zh-CN" :toolbars="mdToolbars" style="height:200px" :onUploadImg="handleEditorImageUpload" />
         </el-form-item>
+        <el-divider content-position="left">更多内容</el-divider>
+        <el-form-item label="理论思想">
+          <div class="mb-2">
+            <el-button size="small" type="primary" plain @click="activeMdField = 'theory'; mdImportDialogVisible = true">📄 导入MD文件</el-button>
+          </div>
+          <MdEditor v-model="famousForm.theory" language="zh-CN" :toolbars="mdToolbars" style="height:200px" :onUploadImg="handleEditorImageUpload" />
+        </el-form-item>
+        <el-form-item label="人物影响">
+          <div class="mb-2">
+            <el-button size="small" type="primary" plain @click="activeMdField = 'influence'; mdImportDialogVisible = true">📄 导入MD文件</el-button>
+          </div>
+          <MdEditor v-model="famousForm.influence" language="zh-CN" :toolbars="mdToolbars" style="height:200px" :onUploadImg="handleEditorImageUpload" />
+        </el-form-item>
+        <el-form-item label="人物评价">
+          <div class="mb-2">
+            <el-button size="small" type="primary" plain @click="activeMdField = 'evaluation'; mdImportDialogVisible = true">📄 导入MD文件</el-button>
+          </div>
+          <MdEditor v-model="famousForm.evaluation" language="zh-CN" :toolbars="mdToolbars" style="height:200px" :onUploadImg="handleEditorImageUpload" />
+        </el-form-item>
+        <el-form-item label="出版图书">
+          <el-select
+            v-model="famousForm.published_books"
+            multiple
+            filterable
+            placeholder="选择关联的图书（先到图书管理添加图书）"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="b in allBooks"
+              :key="b.id"
+              :label="`${b.title}（${b.author}）`"
+              :value="b.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-divider content-position="left">图片集（1-8张展示图片）</el-divider>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div v-for="(img, i) in galleryList" :key="i" class="border border-gray-300 rounded p-2">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-xs text-gray-500">图片 {{ i + 1 }}</span>
+              <el-button size="small" type="danger" text @click="removeGalleryImage(i)">✕</el-button>
+            </div>
+            <el-upload
+              class="cover-upload w-full"
+              drag
+              :action="uploadUrl"
+              :headers="uploadHeaders"
+              :before-upload="beforeUpload"
+              :on-success="(res: any) => handleGallerySuccess(res, i)"
+              :show-file-list="false"
+              accept="image/*"
+            >
+              <el-icon v-if="!img" class="el-icon--upload" :size="24"><upload-filled /></el-icon>
+              <img v-else :src="img" class="w-full h-20 object-cover rounded" />
+              <div class="el-upload__text text-xs mt-1">{{ img ? '点击更换' : '上传图片' }}</div>
+            </el-upload>
+            <el-input v-model="galleryList[i]" size="small" placeholder="或输入URL" class="mt-1" />
+          </div>
+        </div>
+        <el-button v-if="galleryList.length < 8" size="small" type="primary" plain @click="addGallerySlot" class="mt-3">+ 添加图片</el-button>
         <el-divider content-position="left">照片管理</el-divider>
         <el-form-item label="人物照片">
           <div class="space-y-3 w-full">
@@ -742,6 +818,56 @@
                 <el-input v-model="famousForm.status_answered" size="small" placeholder="URL" />
               </div>
               <el-input v-else v-model="famousForm.status_answered" size="small" placeholder="或手动输入URL" />
+            </div>
+          </el-form-item>
+        </div>
+
+        <!-- 知识库上传 -->
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-700 mb-3">📚 知识库</h3>
+          <p class="text-xs text-gray-400 mb-4">上传知识库文件，AI 将基于这些文件回答用户问题。支持 .txt / .md / .pdf 格式。</p>
+
+          <el-form-item label="角色约束">
+            <p class="text-xs text-gray-400 mb-1">定义该名人的角色身份、说话风格和能力边界</p>
+            <el-upload
+              class="w-full"
+              drag
+              :auto-upload="false"
+              :limit="1"
+              accept=".txt,.md"
+              :on-change="handleConstraintFileChange"
+              :file-list="constraintFileList"
+            >
+              <el-icon class="el-icon--upload" :size="30"><upload-filled /></el-icon>
+              <div class="el-upload__text mt-1">拖拽约束文件或 <em>点击上传</em></div>
+              <template #tip>
+                <div class="el-upload__tip text-xs">如已上传过，新上传会覆盖旧文件</div>
+              </template>
+            </el-upload>
+            <div v-if="existingKnowledge.constraint" class="mt-1 text-xs text-green-600">
+              已上传约束文件 ({{ existingKnowledge.constraintSize }})
+            </div>
+          </el-form-item>
+
+          <el-form-item label="知识库文件">
+            <p class="text-xs text-gray-400 mb-1">该名人的专业知识、理论体系、著作内容等参考资料</p>
+            <el-upload
+              class="w-full"
+              drag
+              :auto-upload="false"
+              :limit="1"
+              accept=".txt,.md,.pdf"
+              :on-change="handleKnowledgeFileChange"
+              :file-list="knowledgeFileList"
+            >
+              <el-icon class="el-icon--upload" :size="30"><upload-filled /></el-icon>
+              <div class="el-upload__text mt-1">拖拽知识文件或 <em>点击上传</em></div>
+              <template #tip>
+                <div class="el-upload__tip text-xs">支持 PDF、TXT、MD 格式，最大 10MB</div>
+              </template>
+            </el-upload>
+            <div v-if="existingKnowledge.knowledge" class="mt-1 text-xs text-green-600">
+              已上传知识文件 ({{ existingKnowledge.knowledgeSize }})
             </div>
           </el-form-item>
         </div>
@@ -991,8 +1117,18 @@ const booksTotal = ref(0);
 const bookDialogVisible = ref(false);
 const isEditBook = ref(false);
 const bookForm = reactive({
-  id: null, title: '', author: '', isbn: '', publisher: '', publish_date: '', cover_image: '', ebook_url: '', summary_intro: ''
+  id: null as number | null, title: '', author: '', isbn: '', publisher: '', publish_date: '', cover_image: '', ebook_url: '', summary_intro: '',
+  famous_ids: [] as number[]
 });
+
+// 所有名人列表（供图书编辑时选择）
+const allFamous = ref<any[]>([]);
+const fetchAllFamous = async () => {
+  try {
+    const res = await api.get('/famous', { params: { page: 1, limit: 200 } });
+    if (res.data.success) allFamous.value = res.data.data || [];
+  } catch { /* ignore */ }
+};
 
 const fetchBooks = async (page = 1) => {
   loadingBooks.value = true;
@@ -1018,6 +1154,7 @@ const openBookDialog = async (row: any = null) => {
       if (res.data.success) {
         const detail = res.data.book;
         Object.assign(bookForm, detail);
+        bookForm.famous_ids = detail.famous_ids || [];
         if (detail.summary) {
           try {
             const summary = typeof detail.summary === 'string' ? JSON.parse(detail.summary) : detail.summary;
@@ -1031,17 +1168,20 @@ const openBookDialog = async (row: any = null) => {
       ElMessage.error('获取详情失败');
     }
   } else {
-    Object.assign(bookForm, { id: null, title: '', author: '', isbn: '', publisher: '', publish_date: '', cover_image: '', ebook_url: '', summary_intro: '' });
+    Object.assign(bookForm, { id: null, title: '', author: '', isbn: '', publisher: '', publish_date: '', cover_image: '', ebook_url: '', summary_intro: '', famous_ids: [] });
   }
 };
 
 const saveBook = async () => {
   try {
-    const payload = {
+    const payload: any = {
       title: bookForm.title, author: bookForm.author, isbn: bookForm.isbn, publisher: bookForm.publisher,
       publish_date: bookForm.publish_date, cover_image: bookForm.cover_image, ebook_url: bookForm.ebook_url,
       summary: { intro: bookForm.summary_intro }
     };
+    if (bookForm.famous_ids && bookForm.famous_ids.length > 0) {
+      payload.famous_ids = bookForm.famous_ids;
+    }
     if (isEditBook.value && bookForm.id) {
       await api.put(`/books/${bookForm.id}`, payload);
       ElMessage.success('更新成功');
@@ -1662,6 +1802,7 @@ const famousPeople = ref([]);
 const loadingFamous = ref(false);
 const famousTotal = ref(0);
 const famousDialogVisible = ref(false);
+const famousDialogKey = ref(0);
 const isEditFamous = ref(false);
 const famousForm = reactive({
   id: null as number | null,
@@ -1669,12 +1810,102 @@ const famousForm = reactive({
   introduction: '',
   life_story: '',
   works: '',
+  theory: '',
+  influence: '',
+  evaluation: '',
+  published_books: [] as number[],
+  gallery: '',
   photo: '',
   status_idle: '',
   status_listening: '',
   status_thinking: '',
   status_answered: ''
 });
+
+// 所有图书列表（供名人编辑时选择）
+const allBooks = ref<any[]>([]);
+const fetchAllBooks = async () => {
+  try {
+    const res = await api.get('/books', { params: { page: 1, limit: 200 } });
+    if (res.data.success) allBooks.value = res.data.books;
+  } catch { /* ignore */ }
+};
+
+// 知识库管理
+const constraintFileList = ref<any[]>([]);
+const knowledgeFileList = ref<any[]>([]);
+const pendingConstraintFile = ref<File | null>(null);
+const pendingKnowledgeFile = ref<File | null>(null);
+const existingKnowledge = ref<{ constraint?: string; constraintSize?: string; knowledge?: string; knowledgeSize?: string }>({});
+
+const handleConstraintFileChange = (file: any) => {
+  const raw = file.raw as File;
+  if (raw) {
+    pendingConstraintFile.value = raw;
+    constraintFileList.value = [file];
+  }
+};
+
+const handleKnowledgeFileChange = (file: any) => {
+  const raw = file.raw as File;
+  if (raw) {
+    pendingKnowledgeFile.value = raw;
+    knowledgeFileList.value = [file];
+  }
+};
+
+// 检查已有知识库
+const checkExistingKnowledge = async (famousId: number) => {
+  try {
+    const res = await api.get(`/famous/${famousId}/knowledge`);
+    if (res.data.success && res.data.data?.files?.length > 0) {
+      const files = res.data.data.files;
+      const cFile = files.find((f: any) => f.name === '约束');
+      const kFile = files.find((f: any) => f.name === '知识');
+      existingKnowledge.value = {
+        constraint: cFile?.path,
+        constraintSize: cFile ? formatFileSize(cFile.size) : '',
+        knowledge: kFile?.path,
+        knowledgeSize: kFile ? formatFileSize(kFile.size) : ''
+      };
+    }
+  } catch {
+    existingKnowledge.value = {};
+  }
+};
+
+const formatFileSize = (bytes: number) => {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+};
+
+// 图片集管理
+const galleryList = ref<string[]>(['']);
+
+const addGallerySlot = () => {
+  if (galleryList.value.length < 8) {
+    galleryList.value.push('');
+  }
+};
+
+const removeGalleryImage = (i: number) => {
+  galleryList.value.splice(i, 1);
+  if (galleryList.value.length === 0) galleryList.value.push('');
+};
+
+const handleGallerySuccess = (response: any, i: number) => {
+  if (response.success && response.url) {
+    galleryList.value[i] = response.url;
+    ElMessage.success('图片上传成功');
+  }
+};
+
+// 同步 galleryList 到 famousForm.gallery
+const syncGalleryToForm = () => {
+  const urls = galleryList.value.filter(u => u.trim());
+  famousForm.gallery = urls.length > 0 ? JSON.stringify(urls) : '';
+};
 
 // 截取MD格式文本用于表格预览
 const truncateMd = (md: string, maxLen: number) => {
@@ -1698,26 +1929,104 @@ const fetchFamousPeople = async (page = 1) => {
   }
 };
 
+// 重置名人表单为初始值
+const resetFamousForm = () => {
+  famousForm.id = null;
+  famousForm.name = '';
+  famousForm.introduction = '';
+  famousForm.life_story = '';
+  famousForm.works = '';
+  famousForm.theory = '';
+  famousForm.influence = '';
+  famousForm.evaluation = '';
+  famousForm.published_books = [];
+  famousForm.gallery = '';
+  famousForm.photo = '';
+  famousForm.status_idle = '';
+  famousForm.status_listening = '';
+  famousForm.status_thinking = '';
+  famousForm.status_answered = '';
+  galleryList.value = [''];
+  // 重置知识库
+  constraintFileList.value = [];
+  knowledgeFileList.value = [];
+  pendingConstraintFile.value = null;
+  pendingKnowledgeFile.value = null;
+  existingKnowledge.value = {};
+};
+
+// 用 API 返回的 detail 填充名人表单（逐字段赋值，避免 Object.assign 副作用）
+const fillFamousForm = (detail: any) => {
+  famousForm.id = detail.id;
+  famousForm.name = detail.name || '';
+  famousForm.introduction = detail.introduction || '';
+  famousForm.life_story = detail.life_story || '';
+  famousForm.works = detail.works || '';
+  famousForm.theory = detail.theory || '';
+  famousForm.influence = detail.influence || '';
+  famousForm.evaluation = detail.evaluation || '';
+  famousForm.photo = detail.photo || '';
+  famousForm.status_idle = detail.status_idle || '';
+  famousForm.status_listening = detail.status_listening || '';
+  famousForm.status_thinking = detail.status_thinking || '';
+  famousForm.status_answered = detail.status_answered || '';
+
+  // 解析 published_books：JSON 字符串 → 数字数组
+  if (detail.published_books) {
+    try {
+      const arr = JSON.parse(detail.published_books);
+      famousForm.published_books = Array.isArray(arr) ? arr : [];
+    } catch {
+      famousForm.published_books = [];
+    }
+  } else {
+    famousForm.published_books = [];
+  }
+
+  // 解析 gallery：JSON 字符串 → 字符串数组
+  if (detail.gallery) {
+    try {
+      const urls = JSON.parse(detail.gallery);
+      galleryList.value = Array.isArray(urls) && urls.length > 0 ? urls : [''];
+      famousForm.gallery = detail.gallery;
+    } catch {
+      galleryList.value = [''];
+      famousForm.gallery = '';
+    }
+  } else {
+    galleryList.value = [''];
+    famousForm.gallery = '';
+  }
+};
+
 const openFamousDialog = async (row: any = null) => {
   isEditFamous.value = !!row;
-  famousDialogVisible.value = true;
   mdPreview.value = '';
   mdFileList.value = [];
-  if (row) {
+
+  if (!row) {
+    // 新建：先清空再打开对话框（新建设有任何异步数据）
+    resetFamousForm();
+    famousDialogKey.value++;
+    famousDialogVisible.value = true;
+  } else {
+    // 编辑：先加载数据，再打开对话框，确保 MdEditor 挂载时已有正确初始值
+    resetFamousForm();
     try {
       const res = await api.get(`/famous/${row.id}`);
       if (res.data.success) {
-        const detail = res.data.data;
-        Object.assign(famousForm, detail);
+        fillFamousForm(res.data.data);
+        // 检查已有知识库
+        await checkExistingKnowledge(row.id);
+        famousDialogKey.value++;       // 强制全新挂载
+        famousDialogVisible.value = true; // 数据就绪后才打开
+      } else {
+        ElMessage.error('获取详情失败');
       }
     } catch (error) {
+      console.error('获取名人详情失败:', error);
       ElMessage.error('获取详情失败');
     }
-  } else {
-    Object.assign(famousForm, {
-      id: null, name: '', introduction: '', life_story: '', works: '',
-      photo: '', status_idle: '', status_listening: '', status_thinking: '', status_answered: ''
-    });
   }
 };
 
@@ -1762,12 +2071,29 @@ const saveFamous = async () => {
     ElMessage.warning('请输入姓名');
     return;
   }
+  syncGalleryToForm();
+
+  // 🔍 调试：打印即将发送的"更多内容"字段
+  console.log('[saveFamous] 更多内容:', JSON.stringify({
+    id: famousForm.id,
+    theory_len: famousForm.theory?.length || 0,
+    influence_len: famousForm.influence?.length || 0,
+    evaluation_len: famousForm.evaluation?.length || 0,
+    published_books: famousForm.published_books,
+    gallery_len: famousForm.gallery?.length || 0,
+  }));
+
   try {
     const payload = {
       name: famousForm.name,
       introduction: famousForm.introduction,
       life_story: famousForm.life_story,
       works: famousForm.works,
+      theory: famousForm.theory,
+      influence: famousForm.influence,
+      evaluation: famousForm.evaluation,
+      published_books: famousForm.published_books,
+      gallery: famousForm.gallery,
       photo: famousForm.photo,
       status_idle: famousForm.status_idle,
       status_listening: famousForm.status_listening,
@@ -1775,11 +2101,19 @@ const saveFamous = async () => {
       status_answered: famousForm.status_answered
     };
     if (isEditFamous.value && famousForm.id) {
-      await api.put(`/famous/${famousForm.id}`, payload);
+      const res = await api.put(`/famous/${famousForm.id}`, payload);
+      console.log('[saveFamous] update response:', res.data);
       ElMessage.success('更新成功');
+      // 上传知识库文件
+      await uploadKnowledgeFiles(famousForm.id!);
     } else {
-      await api.post('/famous', payload);
+      const res = await api.post('/famous', payload);
+      console.log('[saveFamous] create response:', res.data);
       ElMessage.success('创建成功');
+      // 上传知识库文件（新建时使用返回的ID）
+      if (res.data.id) {
+        await uploadKnowledgeFiles(res.data.id);
+      }
     }
     famousDialogVisible.value = false;
     fetchFamousPeople();
@@ -1787,6 +2121,34 @@ const saveFamous = async () => {
     console.error('保存名人失败:', error);
     const msg = error?.response?.data?.message || error?.message || '未知错误';
     ElMessage.error('保存失败：' + msg);
+  }
+};
+
+// 上传知识库文件
+const uploadKnowledgeFiles = async (famousId: number) => {
+  if (!pendingConstraintFile.value && !pendingKnowledgeFile.value) return;
+
+  const formData = new FormData();
+  if (pendingConstraintFile.value) {
+    formData.append('constraint', pendingConstraintFile.value);
+  }
+  if (pendingKnowledgeFile.value) {
+    formData.append('knowledge', pendingKnowledgeFile.value);
+  }
+
+  try {
+    await api.post(`/famous/${famousId}/knowledge`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    ElMessage.success('知识库上传成功');
+    // 清除待上传状态
+    constraintFileList.value = [];
+    knowledgeFileList.value = [];
+    pendingConstraintFile.value = null;
+    pendingKnowledgeFile.value = null;
+  } catch (error: any) {
+    console.error('知识库上传失败:', error);
+    ElMessage.warning('名人保存成功，但知识库上传失败');
   }
 };
 
@@ -1809,6 +2171,8 @@ onMounted(() => {
   fetchVideoSeries();
   fetchScales();
   fetchFamousPeople();
+  fetchAllBooks();
+  fetchAllFamous();
 });
 </script>
 

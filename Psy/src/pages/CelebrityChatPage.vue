@@ -34,27 +34,51 @@
       <div class="w-12 h-[2px] bg-white/40 rounded-full mx-auto"></div>
     </div>
 
+    <!-- 返回按钮 -->
+    <button
+      @click="$router.push('/')"
+      class="fixed top-6 right-6 z-50 w-10 h-10 rounded-full bg-black/80 hover:bg-black text-white flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-105"
+      title="返回首页"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
     <!-- ========== 右侧：名人选择区 ========== -->
-    <div class="right-panel ml-[40%] h-full overflow-y-auto px-6 md:px-10 py-8">
+    <div class="right-panel ml-[40%] h-full overflow-y-auto px-6 md:px-10 py-8 relative">
+      <!-- 高度模糊的背景（跟随左侧照片） -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <Transition name="photo-fade" mode="out-in">
+          <img
+            v-if="displayPhoto"
+            :key="displayPhoto"
+            :src="displayPhoto"
+            class="absolute inset-0 w-full h-full object-cover blur-[50px] scale-110"
+            :alt="displayName"
+          />
+        </Transition>
+        <div class="absolute inset-0 bg-white/75"></div>
+      </div>
       <!-- 加载状态 -->
-      <div v-if="loadingCelebrities" class="flex items-center justify-center h-full">
+      <div v-if="loadingCelebrities" class="relative z-10 flex items-center justify-center h-full">
         <p class="text-gray-400 text-lg">加载中...</p>
       </div>
 
       <!-- 空状态 -->
-      <div v-else-if="celebrities.length === 0" class="flex items-center justify-center h-full">
+      <div v-else-if="celebrities.length === 0" class="relative z-10 flex items-center justify-center h-full">
         <p class="text-gray-400 text-lg">暂无名人数据，请在后台添加</p>
       </div>
 
       <!-- 名人卡片网格：每行两个 -->
-      <div v-else class="grid grid-cols-2 gap-4">
+      <div v-else class="relative z-10 grid grid-cols-2 gap-4">
         <div
           v-for="(celebrity, idx) in celebrities"
           :key="celebrity.id"
-          @click="startChat(celebrity, idx)"
+          @click="$router.push('/celebrity/' + celebrity.id)"
           @mouseenter="onCardEnter(celebrity)"
           @mouseleave="onCardLeave()"
-          class="bg-white rounded-2xl border border-gray-200 overflow-hidden cursor-pointer hover:shadow-xl hover:shadow-indigo-100 hover:border-indigo-300 hover:-translate-y-1 transition-all duration-300 group"
+          class="bg-white rounded-lg border-2 border-gray-300 overflow-hidden cursor-pointer hover:shadow-lg hover:shadow-gray-800/30 hover:border-gray-700 hover:-translate-y-1 transition-all duration-300 group"
         >
           <!-- 头像：方形 -->
           <div class="aspect-square w-full overflow-hidden bg-gray-100 relative">
@@ -73,8 +97,8 @@
             </div>
           </div>
           <!-- 姓名 -->
-          <div class="py-3 px-3 text-center">
-            <h3 class="text-sm md:text-base font-bold text-gray-700 group-hover:text-indigo-600 transition-colors truncate">
+          <div class="py-3 px-3 text-center bg-black">
+            <h3 class="text-sm md:text-base font-bold text-white truncate">
               {{ celebrity.name }}
             </h3>
           </div>
