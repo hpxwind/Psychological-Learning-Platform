@@ -1,0 +1,415 @@
+2026-05-05 12:27:30,224 - agent - INFO - logger_handler.py:59 - 信息日志
+2026-05-05 12:27:30,224 - agent - ERROR - logger_handler.py:60 - 错误日志
+2026-05-05 12:27:30,224 - agent - WARNING - logger_handler.py:61 - 警告日志
+2026-05-05 12:27:30,224 - agent - DEBUG - logger_handler.py:62 - 调试日志
+2026-05-05 14:33:08,617 - agent - ERROR - file_handler.py:33 - [-][listdir_with_allowed_type]当前路径data不是文件夹
+2026-05-05 14:33:08,617 - agent - ERROR - file_handler.py:10 - [-][get_file_md5_hex]文件txt不存在
+2026-05-05 14:33:08,617 - agent - ERROR - file_handler.py:13 - [-][get_file_md5_hex]路径txt不是文件
+2026-05-05 14:33:08,618 - agent - ERROR - file_handler.py:25 - [-][get_file_md5_hex]计算txt的md5失败：[Errno 2] No such file or directory: 'txt'
+2026-05-05 14:33:08,618 - agent - ERROR - vector_store.py:33 - [-][load_document->check_md5_hex]md5.txt 文件不存在，已经自动创建
+2026-05-05 14:33:08,618 - agent - ERROR - vector_store.py:88 - [-][load_document]txt加载失败：Error loading txt
+Traceback (most recent call last):
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 42, in lazy_load
+    with open(self.file_path, encoding=self.encoding) as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'txt'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 69, in load_document
+    documents = get_file_documents(path)
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 50, in get_file_documents
+    return txt_loader(read_path)
+  File "D:\Language\python\大模型\Agent案例\utils\file_handler.py", line 50, in txt_loader
+    return TextLoader(filepath).load()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_core\document_loaders\base.py", line 43, in load
+    return list(self.lazy_load())
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 58, in lazy_load
+    raise RuntimeError(f"Error loading {self.file_path}") from e
+RuntimeError: Error loading txt
+2026-05-05 14:33:08,665 - agent - ERROR - file_handler.py:10 - [-][get_file_md5_hex]文件pdf不存在
+2026-05-05 14:33:08,666 - agent - ERROR - file_handler.py:13 - [-][get_file_md5_hex]路径pdf不是文件
+2026-05-05 14:33:08,666 - agent - ERROR - file_handler.py:25 - [-][get_file_md5_hex]计算pdf的md5失败：[Errno 2] No such file or directory: 'pdf'
+2026-05-05 14:33:08,666 - agent - ERROR - vector_store.py:88 - [-][load_document]pdf加载失败：File path pdf is not a valid file or url
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 69, in load_document
+    documents = get_file_documents(path)
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 52, in get_file_documents
+    return pdf_loader(read_path)
+  File "D:\Language\python\大模型\Agent案例\utils\file_handler.py", line 45, in pdf_loader
+    return PyPDFLoader(filepath, passw).load()
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\pdf.py", line 281, in __init__
+    super().__init__(file_path, headers=headers)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\pdf.py", line 140, in __init__
+    raise ValueError("File path %s is not a valid file or url" % self.file_path)
+ValueError: File path pdf is not a valid file or url
+2026-05-05 14:34:57,099 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\扫地机器人100问.txt加载失败：Error loading D:\Language\python\大模型\Agent案例\data\扫地机器人100问.txt
+Traceback (most recent call last):
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 43, in lazy_load
+    text = f.read()
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x80 in position 2: illegal multibyte sequence
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 69, in load_document
+    documents = get_file_documents(path)
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 50, in get_file_documents
+    return txt_loader(read_path)
+  File "D:\Language\python\大模型\Agent案例\utils\file_handler.py", line 50, in txt_loader
+    return TextLoader(filepath).load()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_core\document_loaders\base.py", line 43, in load
+    return list(self.lazy_load())
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 56, in lazy_load
+    raise RuntimeError(f"Error loading {self.file_path}") from e
+RuntimeError: Error loading D:\Language\python\大模型\Agent案例\data\扫地机器人100问.txt
+2026-05-05 14:34:57,107 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\扫拖一体机器人100问.txt加载失败：Error loading D:\Language\python\大模型\Agent案例\data\扫拖一体机器人100问.txt
+Traceback (most recent call last):
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 43, in lazy_load
+    text = f.read()
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x80 in position 2: illegal multibyte sequence
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 69, in load_document
+    documents = get_file_documents(path)
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 50, in get_file_documents
+    return txt_loader(read_path)
+  File "D:\Language\python\大模型\Agent案例\utils\file_handler.py", line 50, in txt_loader
+    return TextLoader(filepath).load()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_core\document_loaders\base.py", line 43, in load
+    return list(self.lazy_load())
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 56, in lazy_load
+    raise RuntimeError(f"Error loading {self.file_path}") from e
+RuntimeError: Error loading D:\Language\python\大模型\Agent案例\data\扫拖一体机器人100问.txt
+2026-05-05 14:34:57,112 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\故障排除.txt加载失败：Error loading D:\Language\python\大模型\Agent案例\data\故障排除.txt
+Traceback (most recent call last):
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 43, in lazy_load
+    text = f.read()
+UnicodeDecodeError: 'gbk' codec can't decode byte 0xab in position 2: illegal multibyte sequence
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 69, in load_document
+    documents = get_file_documents(path)
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 50, in get_file_documents
+    return txt_loader(read_path)
+  File "D:\Language\python\大模型\Agent案例\utils\file_handler.py", line 50, in txt_loader
+    return TextLoader(filepath).load()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_core\document_loaders\base.py", line 43, in load
+    return list(self.lazy_load())
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 56, in lazy_load
+    raise RuntimeError(f"Error loading {self.file_path}") from e
+RuntimeError: Error loading D:\Language\python\大模型\Agent案例\data\故障排除.txt
+2026-05-05 14:34:57,137 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\维护保养.txt加载失败：Error loading D:\Language\python\大模型\Agent案例\data\维护保养.txt
+Traceback (most recent call last):
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 43, in lazy_load
+    text = f.read()
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x80 in position 2: illegal multibyte sequence
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 69, in load_document
+    documents = get_file_documents(path)
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 50, in get_file_documents
+    return txt_loader(read_path)
+  File "D:\Language\python\大模型\Agent案例\utils\file_handler.py", line 50, in txt_loader
+    return TextLoader(filepath).load()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_core\document_loaders\base.py", line 43, in load
+    return list(self.lazy_load())
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 56, in lazy_load
+    raise RuntimeError(f"Error loading {self.file_path}") from e
+RuntimeError: Error loading D:\Language\python\大模型\Agent案例\data\维护保养.txt
+2026-05-05 14:34:57,155 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\选购指南.txt加载失败：Error loading D:\Language\python\大模型\Agent案例\data\选购指南.txt
+Traceback (most recent call last):
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 43, in lazy_load
+    text = f.read()
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x80 in position 2: illegal multibyte sequence
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 69, in load_document
+    documents = get_file_documents(path)
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 50, in get_file_documents
+    return txt_loader(read_path)
+  File "D:\Language\python\大模型\Agent案例\utils\file_handler.py", line 50, in txt_loader
+    return TextLoader(filepath).load()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_core\document_loaders\base.py", line 43, in load
+    return list(self.lazy_load())
+  File "C:\Users\hpc\AppData\Local\Programs\Python\Python314\Lib\site-packages\langchain_community\document_loaders\text.py", line 56, in lazy_load
+    raise RuntimeError(f"Error loading {self.file_path}") from e
+RuntimeError: Error loading D:\Language\python\大模型\Agent案例\data\选购指南.txt
+2026-05-05 14:36:37,832 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\扫地机器人100问.txt加载失败：must have exactly one of create/read/write/append mode
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 84, in load_document
+    save_md5_hex(md5_hex)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 45, in save_md5_hex
+    with open(get_abs_path(chroma_conf["md5_hex_store"]), "wa", encoding='utf-8') as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: must have exactly one of create/read/write/append mode
+2026-05-05 14:36:42,451 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\扫拖一体机器人100问.txt加载失败：must have exactly one of create/read/write/append mode
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 84, in load_document
+    save_md5_hex(md5_hex)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 45, in save_md5_hex
+    with open(get_abs_path(chroma_conf["md5_hex_store"]), "wa", encoding='utf-8') as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: must have exactly one of create/read/write/append mode
+2026-05-05 14:36:45,914 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\故障排除.txt加载失败：must have exactly one of create/read/write/append mode
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 84, in load_document
+    save_md5_hex(md5_hex)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 45, in save_md5_hex
+    with open(get_abs_path(chroma_conf["md5_hex_store"]), "wa", encoding='utf-8') as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: must have exactly one of create/read/write/append mode
+2026-05-05 14:36:47,672 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\维护保养.txt加载失败：must have exactly one of create/read/write/append mode
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 84, in load_document
+    save_md5_hex(md5_hex)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 45, in save_md5_hex
+    with open(get_abs_path(chroma_conf["md5_hex_store"]), "wa", encoding='utf-8') as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: must have exactly one of create/read/write/append mode
+2026-05-05 14:36:50,210 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\选购指南.txt加载失败：must have exactly one of create/read/write/append mode
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 84, in load_document
+    save_md5_hex(md5_hex)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 45, in save_md5_hex
+    with open(get_abs_path(chroma_conf["md5_hex_store"]), "wa", encoding='utf-8') as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: must have exactly one of create/read/write/append mode
+2026-05-05 14:37:42,358 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\扫地机器人100问.txt加载失败：unsupported operand type(s) for +: 'NoneType' and 'str'
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 84, in load_document
+    save_md5_hex(md5_hex)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 46, in save_md5_hex
+    f.write(md5_for_check + "\n")
+            ~~~~~~~~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'str'
+2026-05-05 14:37:46,979 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\扫拖一体机器人100问.txt加载失败：unsupported operand type(s) for +: 'NoneType' and 'str'
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 84, in load_document
+    save_md5_hex(md5_hex)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 46, in save_md5_hex
+    f.write(md5_for_check + "\n")
+            ~~~~~~~~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'str'
+2026-05-05 14:37:50,523 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\故障排除.txt加载失败：unsupported operand type(s) for +: 'NoneType' and 'str'
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 84, in load_document
+    save_md5_hex(md5_hex)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 46, in save_md5_hex
+    f.write(md5_for_check + "\n")
+            ~~~~~~~~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'str'
+2026-05-05 14:37:52,122 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\维护保养.txt加载失败：unsupported operand type(s) for +: 'NoneType' and 'str'
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 84, in load_document
+    save_md5_hex(md5_hex)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 46, in save_md5_hex
+    f.write(md5_for_check + "\n")
+            ~~~~~~~~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'str'
+2026-05-05 14:37:54,936 - agent - ERROR - vector_store.py:88 - [-][load_document]D:\Language\python\大模型\Agent案例\data\选购指南.txt加载失败：unsupported operand type(s) for +: 'NoneType' and 'str'
+Traceback (most recent call last):
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 84, in load_document
+    save_md5_hex(md5_hex)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\Language\python\大模型\Agent案例\rag\vector_store.py", line 46, in save_md5_hex
+    f.write(md5_for_check + "\n")
+            ~~~~~~~~~~~~~~^~~~~~
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'str'
+2026-05-05 14:40:01,017 - agent - INFO - vector_store.py:90 - [+][load_document][Document(metadata={'source': 'D:\\Language\\python\\大模型\\Agent案例\\data\\扫地机器人100问.txt'}, page_content='一、基础概念与原理（1-15）\n1. 问：扫地机器人的工作原理是什么？\n答：通过导航系统（激光/视觉）构建房间地图，规划清扫路径，依靠边刷聚拢垃圾，主刷（滚刷）扬起灰尘，风机产生负压吸入尘盒，最后通过滤网过滤排出洁净空气。\n\n2. 问：扫地机器人和吸尘器有什么区别？\n答：吸尘器需要人工操作，吸力更大，适合深度清洁；扫地机器人可自动定时清扫，无人值守，但吸力相对较小，适合日常维持地面清洁。\n\n3. 问：扫地机器人能完全代替人工打扫吗？\n答：不能完全代替。对于角落、家具底部边缘、顽固污渍和大型垃圾，仍需人工补充清洁。但每日运行可以大幅减少手工清扫频率。\n\n4. 问：随机式清扫和规划式清扫有什么不同？\n答：随机式采用碰撞+陀螺仪，路径杂乱无章，容易漏扫；规划式通过导航建立地图，按弓字形路径覆盖，清扫效率和覆盖率均高得多。\n\n5. 问：激光导航（LDS）和视觉导航（VSLAM）哪个更好？\n答：激光导航精度高、建图快、不受光线影响，是目前主流；视觉导航成本低，但暗光或弱纹理环境表现较差。高端机型采用激光+视觉融合。\n\n6. 问：扫地机器人吸力是不是越大越好？\n答：不一定。吸力在4000-6000Pa已能满足日常清洁，过大的吸力会增加噪音和能耗。重要的是风道设计和密封性，而不仅仅是数字。\n\n7. 问：单边刷和双边刷哪个好？\n答：双边刷聚拢效果更好，不易打飞垃圾；单边刷容易将颗粒物弹开。但优秀的风道和刷速控制也能弥补单边刷的不足。\n\n8. 问：胶刷和毛刷滚刷怎么选？\n答：胶刷（橡胶滚刷）防缠绕性能好，适合宠物毛发多的家庭；毛刷能深入地板缝隙，清洁更彻底。部分机型可互换两种滚刷。\n\n9. 问：扫地机器人的尘盒容量多大合适？\n答：建议≥300ml，宠物家庭或大户型≥400ml。如果是自动集尘机型，尘盒大小不那么重要（但尘袋容量更重要）。\n\n10. 问：滤网（HEPA）有什么作用？\n答：过滤排出的空气中的微小颗粒（花粉、尘螨、宠物皮屑），防止二次污染。建议H11级以上滤网，过敏人群尤其需要。\n\n11. 问：防跌落传感器是如何工作的？\n答：机身底部有红外传感器，检测到下方悬空（如楼梯）时立即后退转向，防止跌落。复式楼层住户必须确保该功能正常。\n\n12. 问：扫地机器人能爬坡过坎吗？\n答：一般能越过1.5-2cm的门槛或地毯流苏。超过2cm的滑轨、阳台推拉门轨道可能卡住，需加装斜坡垫或设置禁区。\n\n13. 问：为什么有的扫地机器人会“原地打转”？\n答：常见原因：悬崖传感器脏污、驱动轮被毛发卡死、轮子悬空或地面过于光滑。清洁传感器和轮子后通常恢复。\n\n14. 问：扫地机器人电池续航多久？\n答：主流机型5200mAh锂电池，标准模式下可工作150-180分钟，清扫约150-200平米。强力模式续航减半，自动回充后续扫。\n\n15. 问：扫地机器人需要连接Wi-Fi吗？\n答：不需要也能工作（按键启动自动清扫），但连接Wi-Fi后才能使用APP定时、划区、调节吸力、查看地图等高级功能。\n\n二、选购指南（16-35）\n16. 问：预算1000元以内能买到好用的扫地机器人吗？\n答：可以，但通常是陀螺仪或简易激光导航，吸力较小，无自动集尘，适合小户型或出租房。推荐小米1C、科沃斯N8等入门款。\n\n17. 问：1500-2500元价位应该关注哪些功能？\n答：激光导航、划区清扫、电控水箱（如有拖地）、吸力≥3000Pa、APP控制。这个区间的性价比最高。\n\n18. 问：3000元以上高端机型有哪些提升？\n答：自动集尘、结构光/AI避障、拖布自动抬升（若有拖地）、热风烘干、银离子除菌、多楼层地图、更强的算法。\n\n19. 问：家有宠物应该重点看哪些配置？\n答：胶刷防缠绕、大尘盒或自动集尘（减少倒灰频率）、HEPA滤网、吸力大、低噪音模式、耐抓的机身材质。\n\n20. 问：养宠物的家庭适合用毛刷还是胶刷？\n答：胶刷。宠物毛发不易缠绕在胶刷上，清理方便，且不会像毛刷那样将毛发缠死。推荐石头或iRobot的胶刷设计。\n\n21. 问：家里地毯很多怎么选？\n答：必须有地毯识别功能，遇到地毯自动增加吸力，且拖地版本需要拖布抬升（避免湿地毯）。长毛地毯建议设虚拟墙。\n\n22. 问：复式或别墅需要什么特殊功能？\n答：支持多楼层地图（至少3张），且能自动识别楼层；电池容量要大；基站最好轻便可移动；楼梯防跌落灵敏。\n\n23. 问：小户型（<70平）需要买自动集尘吗？\n答：不需要，手动倒尘盒很方便，自动集尘的噪音和成本并不划算。推荐选择轻薄、灵活的小型扫地机。\n\n24. 问：扫地机器人的厚度重要吗？\n答：重要。如果沙发、床底高度有限，应选厚度≤9cm的机型。激光雷达凸起通常高2-3cm，总厚度需实测。\n\n25. 问：避障功能值得多花几百元吗？\n答：非常值得，尤其家有幼童、数据线、拖鞋等杂物时。带结构光或AI视觉的机型可减少80%以上的卡困和碰撞。\n\n26. 问：自动集尘基站是否必须？\n答：不是必须，但能极大减少倒灰频率（1-2个月一次），适合注重便利性的用户。不喜欢噪音或预算有限可以不选。\n\n27. 问：扫地机器人的噪音一般多大？\n答：标准档55-65dB（相当于谈话声），最大档70-75dB，自动集尘瞬间可达80-85dB。建议设置无人时清扫。\n\n28. 问：品牌重要吗？小众品牌可以买吗？\n答：主流品牌（石头、科沃斯、小米、追觅、云鲸、iRobot）固件更新和售后有保障。小众品牌可能缺乏长期维护，不推荐。\n\n29. 问：买新款还是上一代旗舰？\n答：上一代旗舰性价比极高，性能足够；新款通常避障算法或吸力有升级，预算充足可选，否则买旧款旗舰更划算。\n\n30. 问：海外品牌和国产品牌怎么选？\n答：目前国产品牌在导航、算法、基站功能上全面领先，且价格更实惠。海外品牌如iRobot防缠绕出色，但APP和地图较弱。\n\n31. 问：扫地机器人可以清扫木地板吗？\n答：可以。但需要确认边刷是否硬质（可能划伤地板），选择软质边刷或机身带防刮条。日常使用没有问题。\n\n32. 问：有老人该选什么样的？\n答：选带物理按键、语音提示、简化APP或支持智能音箱操作的机型。最好能看到剩余电量或尘盒状态。\n\n33. 问：什么情况下需要买延保服务？\n答：自动集尘或全能基站机型结构复杂，维修费用高，建议购买延保（2-3年）。普通单机版故障率低，可以不买。\n\n34. 问：线上买还是线下买？\n答：线上价格优惠多，评测参考多；线下可以实际感受噪音、厚度和做工。建议线上旗舰店购买，售后更有保障。\n\n35. 问：如何判断一款扫地机器人的清洁效果？\n答：看评测中的“边框清洁”、“弓字形覆盖率”、“毛发缠绕”、“地毯吸尘”等实测。不要只看官方数据，参考第三方测试。\n\n三、安装与首次使用（36-50）\n36. 问：收到新机器后第一步做什么？\n答：开箱检查配件是否齐全，拆除所有保护贴纸（底部传感器、雷达顶盖、碰撞缓冲条），安装边刷，放置充电座，连接电源。\n\n37. 问：充电座应该放在哪里？\n答：靠墙，左右两侧各0.5米空旷，前方1.5米无遮挡，避免阳光直射，地面平整无门槛。不要放在角落或楼梯口。\n\n38. 问：如何连接APP并建图？\n答：下载对应APP（如Roborock、MiHome等）→注册→添加设备→连接2.4GHz WiFi→点击“快速建图”，让机器人全屋跑一遍。\n\n39. 问：建图需要多长时间？正确建图技巧？\n答：100平米约15-30分钟。建图前打开所有房间门，移除地面杂物，不要干扰机器人，不要抱起或踢到它。\n\n40. 问：建图完成后可以编辑地图吗？\n答：可以。通常支持：设置虚拟墙/禁区、分割/合并房间、命名房间、标注家具、设定清扫顺序、不同房间定制吸力等。\n\n41. 问：虚拟墙怎么用？\n答：APP地图上绘制红色线框或线条，机器人不会越过。适用场景：宠物食盆、长毛地毯、卫生间门槛、儿童玩具区。\n\n42. 问：首次清扫需要注意什么？\n答：建议先用“仅扫地”模式，不加水（如有拖地功能），避免湿垃圾堵塞。清扫后检查尘盒和主刷是否有大件异物。\n\n43. 问：如何设定定时清扫？\n答：APP中设置定时任务，如“每天10:00全屋清扫”，可选择仅扫地或扫拖模式。建议工作日白天家中无人时运行。\n\n44. 问：机器人需要固件升级吗？\n答：建议升级。新固件通常会优化算法、修复Bug、增加新功能。升级时确保电量>30%且主机在充电座上。\n\n45. 问：充电触点不接触怎么办？\n答：检查充电座和机器人底部的金属触点是否脏污，用干布或橡皮擦清洁；调整充电座位置，确保机器人能直线对准。\n\n46. 问：可以只清扫某个房间吗？\n答：可以。APP地图中点选房间→“清扫该房间”，或使用划区清扫（框选矩形区域）。也可通过语音指令指定。\n\n47. 问：机器人运行时人可以待在家里吗？\n答：可以，但可能会互相干扰（机器人会绕开人）。建议不在家时使用定时清扫，或设置安静模式。\n\n48. 问：多楼层如何切换地图？\n答：支持多楼层机型会自动识别楼层（或手动切换），每次拿到不同楼层后点击“开始清扫”，机器人会自动载入对应地图。\n\n49. 问：为什么机器人总去同一个不应去的地方？\n答：地图上可能没有设置禁区，或者机器人被推过导致地图错位。重新设置虚拟墙，或恢复地图备份。\n\n50. 问：首次充电需要充多久？\n答：锂电池无记忆效应，充满即可（通常3-4小时）。首次使用前建议充满电再开始建图。\n\n四、日常使用与设置（51-65）\n51. 问：扫地机器人每天用几次合适？\n答：一般家庭每天1次足矣；有宠物可每天2次（早晚）；灰尘大的环境可增加频率。频率过高会增加耗材磨损。\n\n52. 问：扫地模式和强力模式有什么区别？\n答：强力模式吸力最大，清扫彻底但噪音大、耗电快；标准模式适合日常维持；安静模式噪音低，适合有人时使用。\n\n53. 问：如何让机器人避开地毯或特定区域？\n答：在地图上建虚拟墙（红线）或绘制禁区。若地毯可移动，也可直接收走。\n\n54. 问：为什么机器人有时会漏扫？\n答：原因：地面杂物阻碍、悬崖传感器误触发、地图未更新（家具移动）、电池低电中途回充、导航受强光干扰。\n\n55. 问：机器人可以清扫长毛地毯吗？\n答：不建议。长毛地毯容易被卷入刷体导致卡机，即使有地毯识别也可能失败。最好设置禁区或手动清理。\n\n56. 问：机器人需要关机吗？\n答：日常不用关机，待机功耗极低。长期存放（>1个月）应关机并充电至50-60%，存放于阴凉干燥处。\n\n57. 问：如何共享设备给家人？\n答：APP内“设备共享”或“家庭成员”，输入对方手机号，对方下载APP后即可查看和操作。\n\n58. 问：可以用小爱同学/天猫精灵控制吗？\n答：主流品牌均支持。需在智能音箱APP中绑定扫地机器人账号，即可通过语音唤醒来清扫、回充、暂停。\n\n59. 问：扫地机器人耗电多吗？\n答：一次完整清扫约0.05-0.15度电，非常节能。即使每天工作一次，月电费不到10元。\n\n60. 问：如何查看清扫记录和面积？\n答：APP的“清扫历史”可以看到每次清扫的时长、面积、耗材使用情况，部分机型生成周/月清洁报告。\n\n61. 问：断点续扫是什么？怎么用？\n答：当电量不足时自动回充，充到一定电量后返回上次中断点继续清扫，避免重复。默认开启，无需设置。\n\n62. 问：机器人的数据会上传云端吗？安全吗？\n答：地图和清扫记录会上传（用于多设备同步），主流品牌有加密和隐私政策。视觉导航机型可禁用摄像头远程访问。\n\n63. 问：清扫顺序能自定义吗？\n答：可以。在APP地图中可以设置房间清扫顺序，如先卧室后客厅再厨房，避免二次污染。\n\n64. 问：可以定时在不同房间使用不同吸力吗？\n答：部分高级机型支持“定制化清扫”：针对每个房间分别设定吸力、清扫次数、模式。\n\n65. 问：机器人为什么有时会回到充电座“休息”？\n答：可能触发了“节能回充”或“中途补水/洗拖布”（带基站的机型），也可能地图出错导致认为清扫完成。\n\n五、维护保养（66-80）\n66. 问：多久清理一次尘盒？\n答：每次清扫后检查，若超过2/3满即倒空。自动集尘机型可1-2个月倒一次集尘袋。长期不清理会严重降低吸力。\n\n67. 问：滤网如何清洁和更换？\n答：每1-2周用刷子轻刷表面，或用吸尘器反向吸尘。严禁水洗（除非标注可水洗）。每3-6个月更换一次。\n\n68. 问：主刷（滚刷）如何清理毛发？\n答：用附带的小鸟刀或剪刀割断缠绕的毛发，每周清理尤其注意两个端盖内部。主刷一般6-12个月更换。\n\n69. 问：边刷需要更换吗？多久一次？\n答：边刷变形、打卷或转速下降时更换，通常3-6个月。可买第三方配件，价格便宜。\n\n70. 问：传感器如何保养？\n答：每月用干燥软布擦拭机身底部的悬崖传感器（6个左右）、前方避障传感器、LDS雷达透光罩。灰尘积累会导致误判。\n\n71. 问：充电触点氧化怎么办？\n答：每月用酒精棉片或橡皮擦清洁机身及充电座上的金属触点，保证充电可靠性。\n\n72. 问：万向轮怎么清理？\n答：用镊子或小螺丝刀挑出轮轴上的毛发，拆下后用湿布擦拭。若转动不灵活可滴少量硅油（不可用机油）。\n\n73. 问：自动集尘基站需要维护吗？\n答：需要。定期检查集尘袋是否满，清理集尘通道（可用长软刷），擦拭基站内部灰尘。每月至少一次。\n\n74. 问：电池寿命多长？怎么判断需要更换？\n答：一般1.5-2年。当清扫时间比新机减少30%以上，或出现充不进电、续航严重缩水时，建议更换电池。\n\n75. 问：风机吸力下降可能是什么原因？\n答：尘盒满、滤网堵塞、风道异物（如牙签、小硬币）、风机损坏。依次排查，风道可用细长镊子清理。\n\n76. 问：长期不用如何存放？\n答：清空尘盒和水箱（若有），将电池充电至50%后关机，取下所有易损件（边刷、滚刷、拖布），存放于干燥阴凉处。\n\n77. 问：滚刷两端轴承积毛发会导致什么后果？\n答：增加电机负载，产生异响，严重时烧毁驱动电机或滚刷电机。必须定期清理。\n\n78. 问：尘盒可以用水清洗吗？\n答：可以，但需确保尘盒内电子触点位置不进水，完全晾干后再装回。纸制滤网不能水洗。\n\n79. 问：滚刷胶条磨损了能单独换吗？\n答：一般不能，需要整体更换滚刷总成。部分机型胶条可拆卸，如iRobot的模块化设计。\n\n80. 问：多久需要专业维修保养一次？\n答：如果无异常，家用2-3年可送售后进行一次全面检查（约100-200元），包括内部齿轮润滑、传感器校准、灰尘清理。\n\n六、故障与问题排查（81-95）\n81. 问：机器人无法开机怎么办？\n答：放回充电座充电30分钟；清洁充电触点；长按电源键10秒强制重启；检查电池是否严重亏电（需售后激活）。\n\n82. 问：不充电或充不进电？\n答：检查充电座是否通电，指示灯亮；清洁触点；尝试用USB线直接给机器人充电（若支持）；电池损坏需更换。\n\n83. 问：频繁回充失败怎么办？\n答：调整充电座位置（左右1米无遮挡，前方1.5米空旷）；擦拭红外传感器；避免阳光直射；检查充电座是否放在墙角。\n\n84. 问：建图不全或地图丢失？\n答：重新快速建图，确保所有房间门打开并清理地面；更新固件；不要手动移动机器人；如有云端备份可恢复。\n\n85. 问：机器人原地打转或走不了直线？\n答：悬崖传感器脏污或驱动轮卡毛发。清洁所有传感器，拆下驱动轮清理缠绕物；校准陀螺仪（重启或重设）。\n\n86. 问：机器人莫名卡住报被困？\n答：常见卡点：门槛过高、落地扇底座、电线堆、极低矮家具。移除障碍物或在APP中设置禁区。\n\n87. 问：运行噪音突然变大？\n答：主刷端盖毛发缠绕、滚刷轴承磨损、风机吸入硬物（如回形针）、边刷变形。逐一检查清理。\n\n88. 问：自动集尘时垃圾吸不干净？\n答：尘袋已满或堵塞；集尘通道有异物；主机尘盒盖子未盖严。清理通道并检查密封圈。\n\n89. 问：机器人在某区域一直转圈？\n答：地面高反光（黑色大理石、镜子）导致悬崖传感器误判。用虚拟墙将该区域框出，或贴白色胶带改变反射。\n\n90. 问：APP无法连接机器人？\n答：检查WiFi是否为2.4GHz（部分不支持5G）；重启路由器；重置机器人WiFi并重新配对；关闭手机VPN。\n\n91. 问：地图出现重影或房间错位？\n答：机器人被搬运过或地面强反光。重新建图，或恢复地图备份。平时避免人为移动正在清扫的机器人。\n\n92. 问：机器人撞坏家具？\n答：检查缓冲碰撞板是否卡住；开启“防撞模式”（算法减速）；更新地图并设定软禁区。\n\n93. 问：开机后立即关机或重启？\n答：电池故障（内阻过大）或主板问题。尝试更换电池，若无效则送修。\n\n94. 问：机器人在充电座上频繁启动？\n答：充电触点接触不良，机器人误认为被拿起。清洁触点；检查充电座是否有异物。\n\n95. 问：如何恢复出厂设置？\n答：APP中删除设备并重新添加；或按住主机上的组合键（不同品牌不同，参考说明书）。恢复后需重新建图。\n\n七、耗材与配件（96-98）\n96. 问：一年耗材花费大概多少？\n答：根据使用频率，约200-600元。包括：边刷（20-40元/对×2次）、滤网（30-60元×2次）、主刷（50-100元×1次）、集尘袋（平均10元/个×12个）等。\n\n97. 问：可以用第三方耗材吗？\n答：可以，但需保证尺寸匹配。注意部分品牌有RFID芯片识别原厂，使用第三方可能导致功能受限或不计数。\n\n98. 问：怎样延长耗材寿命？\n答：定期清理边刷和主刷上的毛发，避免过度磨损；滤网勤用吸尘器反吸；集尘袋未满不要提前丢弃；拖布及时清洗防止硬化。\n\n八、高级功能与智能体验（99-100）\n99. 问：AI识别障碍物实际可靠吗？\n答：主流旗舰的AI识别（如石头、追觅）在光线充足时能识别电线、袜子、宠物粪便并避让，但对细小物体（如发绳）可能漏识别。并非100%完美，仍需保持地面整洁。\n\n100. 问：扫地机器人未来会有哪些技术突破？\n答：机械臂辅助拾取小型垃圾（如纸巾、瓜子壳）；全机身升降（越障和清洁切换）；更强AI与3D感知；自清洁基站（无需手动清理底盘）；更安静的自动集尘；模块化易维修设计；更低功耗长续航。')]-D:\Language\python\大模型\Agent案例\data\扫地机器人100问.txt已经加载知识库，成功
+2026-05-05 14:40:05,574 - agent - INFO - vector_store.py:90 - [+][load_document][Document(metadata={'source': 'D:\\Language\\python\\大模型\\Agent案例\\data\\扫拖一体机器人100问.txt'}, page_content='一、基础概念与原理（1-15）\n1. 问：扫拖一体机器人和普通扫地机器人有什么本质区别？\n答：扫拖一体机在扫地基础上增加了拖地模块（水箱+拖布），可以同时或分时完成扫地和拖地任务，节省人工拖地时间。普通扫地机器人只能吸尘清扫。\n\n2. 问：扫拖机器人真的能代替人工拖地吗？\n答：对于日常浮尘、脚印、轻微污渍，可以代替人工；但顽固污渍（干涸的酱油、油垢）仍需要手工处理。部分高端机型通过高频振动或旋转加压拖地，清洁力接近人工。\n\n3. 问：扫拖机器人的工作流程是什么？\n答：导航建图 → 规划路径 → 先沿边后弓字形清扫 → 吸尘 + 滚刷扫起垃圾 → 后方拖布湿润擦地 → 自动回充 / 返回基站洗拖布（视机型）。\n\n4. 问：为什么扫拖一体机有时会越扫越脏？\n答：常见原因：拖布太脏未清洗、污水箱未及时倒、地面有大颗粒垃圾被拖布推着走，或使用了不干净的清水。\n\n5. 问：扫拖机器人可以同时扫地和拖地吗？\n答：多数可以，但建议先纯扫一遍，再纯拖，以免湿垃圾堵塞吸尘口或污染滚刷。部分机型支持“先扫后拖”顺序。\n\n6. 问：扫拖机器人需要安装上下水吗？\n答：不是必须。无上下水时依靠水箱手动加水倒水；有上下水可自动进清水、排污水，更省事，但需装修预留或改造。\n\n7. 问：激光导航和视觉导航哪种更适合扫拖一体机？\n答：激光导航建图精准且不受光线影响，是主流选择。视觉导航成本低但暗光下表现差。高端机型采用激光+视觉融合，避障更出色。\n\n8. 问：扫拖机器人的吸力多大够用？\n答：4000-6000Pa满足日常清洁，有宠物或地毯需求可选8000Pa以上。吸力不是唯一指标，风道设计也很重要。\n\n9. 问：什么是全能基站？包含哪些功能？\n答：全能基站通常包括：自动集尘、自动洗拖布、自动补水、热风烘干、自动添加清洁液、上下水（选配）、银离子除菌。不同品牌功能有差异。\n\n10. 问：扫拖机器人的续航一般多久？\n答：标准模式下，5200mAh电池约可工作150-180分钟，清扫150-200平米。强力模式下续航减半。自动回充后续扫。\n\n11. 问：为什么拖地后地面有水痕？\n答：原因可能是拖布太湿、水量设置过大、拖布不均匀或不平整、地面有油污。可调低水量或更换拖布材质（超细纤维有助于减少水痕）。\n\n12. 问：扫拖机器人能上地毯吗？\n答：可以。多数机型具备地毯识别，遇到地毯自动增加吸力、抬升拖布（不湿地毯）。长毛地毯可能被卷边，建议设置禁区。\n\n13. 问：所有扫拖机器人都能自动洗拖布吗？\n答：不是。只有带有清洗基站的机型才能自动洗拖布；无基站或简易基站的需要手动拆卸拖布清洗。\n\n14. 问：扫拖机器人能清理墙角吗？\n答：可以沿墙清扫，但由于外形圆形，直角墙角可能存在几厘米盲区。部分机型采用方形机身或边刷加长来改善。\n\n15. 问：云鲸、石头、科沃斯、追觅、小米有什么区别？\n答：云鲸以拖地体验和不伤地板著称但扫拖需手动换模块（旧款）；石头算法优秀、综合均衡；科沃斯产品线最全；追觅吸力大、性价比高；小米生态整合好、价格亲民。\n\n二、选购指南（16-30）\n16. 问：预算2000元以内能买到好用的扫拖一体机吗？\n答：可以。这个价位通常有LDS导航+电控水箱，无自动集尘或洗拖布，适合小户型或入门，如小米扫地机器人2、科沃斯N8系列。\n\n17. 问：3000-5000元预算应该关注哪些功能？\n答：优先考虑全能基站（自动洗拖布、烘干、集尘）、结构光或AI避障、拖布抬升、整机抗菌。代表产品：石头P10 Pro、追觅S20系列、科沃斯T20系列。\n\n18. 问：家里有宠物应该选什么样的扫拖机器人？\n答：首选胶刷防缠绕（如石头或iRobot）、大尘盒+自动集尘、强力吸力、HEPA滤网。拖布要有抗菌烘干防异味。\n\n19. 问：复式或别墅怎么选？\n答：需要支持多楼层地图（至少3张），且基站轻便或每层单独配一台。电池容量要大，避免频繁回充。最好选可移动基站。\n\n20. 问：扫拖机器人的厚度重要吗？\n答：很重要。如果要进入沙发底、床底，厚度应≤9cm（含激光雷达凸起）。超薄机型≤7cm但水箱电池较小。\n\n21. 问：避障功能有必要吗？\n答：非常有必要，特别是家里有数据线、拖鞋、儿童玩具的。结构光或视觉避障能大大减少卡困和碰撞。\n\n22. 问：自动集尘和自动洗拖布必须都选吗？\n答：如果预算充足，两者都配有最佳体验；如果二选一，宠物家庭优先自动集尘，拖地为主优先自动洗拖布。\n\n23. 问：上下水版本值得买吗？\n答：如果装修时预留了位置（阳台、卫生间），值得，省去频繁加水倒水。否则手动水箱也完全可以接受，每周加2-3次水。\n\n24. 问：买新款还是旧款旗舰？\n答：旧款旗舰性价比高，性能足够；新款通常升级避障算法或热水洗拖布，预算充足可选新款，否则上一代旗舰更值。\n\n25. 问：扫拖机器人需要买延保吗？\n答：全能基站结构复杂，维修费用高，建议购买2-3年延保。普通单机版故障率较低，可以不买。\n\n26. 问：海外品牌和国产品牌怎么选？\n答：目前国产品牌（石头、追觅、科沃斯、云鲸）在导航、避障、基站功能上已领先；海外品牌如iRobot防缠绕强但地图、APP较落后；建议国产品牌。\n\n27. 问：扫拖机器人能清洗油污厨房地面吗？\n答：对轻度油污有效，但重油污容易污染拖布并推得到处都是。建议先用厨房湿巾手擦，再让机器人拖。\n\n28. 问：是否所有机型都能用手机APP操控？\n答：绝大部分可以，只有百元级低端产品可能不支持。APP功能包括定时、划区、调节吸力水量、查看地图等。\n\n29. 问：360°碰撞条和机械防撞哪个好？\n答：带柔性缓冲条的碰撞检测+电子传感器更好，减少对家具的冲击。纯机械碰撞条较原始，易损坏家具。\n\n30. 问：买水箱版还是上下水版，犹豫不定怎么办？\n答：可以先买水箱版，后期部分品牌提供改装套件升级上下水。若确定未来不改造，直接买水箱版即可。\n\n三、安装与首次使用（31-45）\n31. 问：收到扫拖机器人后第一步做什么？\n答：开箱检查配件，拆除机身保护贴纸（特别是悬崖传感器、雷达盖），安装边刷、拖布支架，放置基站，给主机和基站通电。\n\n32. 问：基站应该放在哪里？\n答：靠墙、左右两侧各0.5米空旷，前方1.5米无遮挡，避免阳光直射红外传感器。地面平整，不在楼梯口。\n\n33. 问：如何连接APP并建图？\n答：下载对应品牌APP（如Roborock、Ecovacs、MiHome等），注册账号，按提示添加设备，连接2.4GHz WiFi，点击“快速建图”，让机器人全屋跑一圈。\n\n34. 问：首次建图需要多长时间？\n答：100平米大约15-30分钟，机器人会边走边绘制并保存地图。建图过程中不要人为移动或干扰。\n\n35. 问：建图后可以编辑地图吗？\n答：可以。通常可以设置虚拟墙/禁区、合并或分割房间、命名房间、标注家具、调整吸力和拖布水量、设置清扫顺序。\n\n36. 问：如何使用虚拟墙？\n答：APP地图上绘制红色线框，机器人不会越过。适用于宠物的食盆、长毛地毯、卫生间门口等区域。\n\n37. 问：清扫前需要做什么地面准备？\n答：收走地面上的杂物（袜子、数据线、玩具、塑料袋），移开轻质地毯，关闭房间门如果想跳过该房间。家具不需要移动。\n\n38. 问：第一次清扫有什么注意事项？\n答：建议先在“仅扫地”模式下完整清扫一遍，避免湿垃圾进入尘盒。首次使用后检查主刷、尘盒是否有大件缠绕。\n\n39. 问：如何设定清扫计划和定时？\n答：APP中设置定时任务，如每天上午10点全屋清扫；可指定是否同时扫拖或仅扫地/拖地。建议工作日白天无人时执行。\n\n40. 问：机器人需要固件升级吗？\n答：建议升级到最新版本，官方会优化算法、修复Bug。升级时电量>30%且主机在基站上。\n\n41. 问：能同时多台机器人工作吗？\n答：可以，但不同品牌互不干扰；同一品牌部分支持协同清扫，但容易互相避让降低效率，一般不推荐。\n\n42. 问：机器人回充失败怎么办？\n答：清洁充电极片；基站左右1米内无强反光物体（镜面、金属）；重启主机；重新定位基站位置。\n\n43. 问：可以只清扫单个房间吗？\n答：可以。APP地图上选择房间点按清扫，或设置划区清扫（矩形框选区域）。\n\n44. 问：怎样让机器人不撞到易碎物品？\n答：在APP地图上将易碎品周围设置为虚拟墙或禁区。也可利用AI识别（部分机型可在APP标注家具位置）。\n\n45. 问：首次拖地需要打湿拖布吗？\n答：最好先手动湿润拖布并拧干，再装上去启动，避免干拖几米才出水。部分基站会自动湿布。\n\n四、日常使用与设置（46-60）\n46. 问：扫拖机器人适合每天使用吗？\n答：非常适合。每天1次可以减少积尘，保持地面干净。频率可根据家庭成员活动情况调节。\n\n47. 问：扫地模式和拖地模式可以分开执行吗？\n答：可以。一般APP内选择“仅扫地”或“仅拖地”。拖地时会自动提升吸力或关闭滚刷（视机型）。\n\n48. 问：怎样设置不同房间不同吸力和拖布湿度？\n答：高级机型支持房间定制化。在APP地图中选中某个房间，单独设定吸力档位、水量、次数。\n\n49. 问：可以只让机器人拖厨房，不拖卧室吗？\n答：可以，通过设置仅清扫选定房间或禁区实现。\n\n50. 问：机器人工作时人能在家吗？\n答：可以，但可能会互相打扰（噪音、机器人绕开人）。建议设置定时在出门或午休时工作。\n\n51. 问：扫拖机器人的噪音大么？\n答：标准档约55-65dB，相当于正常交谈；强力档可到70dB；自动集尘瞬时可达80-85dB。可以在APP中开启勿扰模式或安静时段。\n\n52. 问：遇到地毯会自动抬起拖布吗？\n答：中高端机型支持超声波地毯识别+拖布自动抬升（≥7mm），但长毛地毯仍有风险，建议手动设禁区。\n\n53. 问：如何让机器人避开宠物？\n答：开启AI识别（部分机型可识别猫狗），机器人会绕行。也可建图时将宠物常呆区域设禁区。\n\n54. 问：为什么机器人有时会漏扫？\n答：可能因为地面杂物阻碍、悬崖传感器误触发、地图老旧（家具位置移动后未更新）、电量过低自动回充。\n\n55. 问：扫拖机器人需要关机吗？\n答：平时无需关机，长期不使用（超过1个月）应关机并存放于干燥处，电量保持50%左右。\n\n56. 问：如何共享设备给家人？\n答：APP中添加共享成员（输入手机号或邮箱），家人下载同品牌APP即可操作。\n\n57. 问：可以用Siri或小爱同学控制吗？\n答：主流品牌均支持智能音箱语音控制，需在APP内绑定音箱账号，即可语音指令如“小爱同学，让扫地机器人去扫厨房”。\n\n58. 问：机器人耗电多吗？\n答：一次完整清扫约消耗0.05-0.15度电，非常省电。基站加热烘干或洗拖布稍多，但远低于空调等电器。\n\n59. 问：如何查看清扫记录与面积？\n答：APP中“清扫历史”可看到每次清扫时间、面积、耗时、耗材使用情况，部分机型生成清洁报告。\n\n60. 问：是否支持断点续扫？\n答：大多数支持。当电量低时自动回充，充到一定电量后会返回上次中断点继续清扫，不会重复全屋。\n\n五、维护保养（61-75）\n61. 问：多久清理一次尘盒？\n答：每次清扫后检查，超过2/3即倒。自动集尘机型可1-2个月倒一次集尘袋。\n\n62. 问：滤网（HEPA）多久更换？\n答：普通家庭每3-6个月更换，宠物家庭2-3个月。滤网堵塞会降低吸力、增加噪音。\n\n63. 问：主刷（滚刷）如何清理毛发？\n答：用附带的小鸟刀或剪刀割断缠绕的毛发，每周清理一次。主刷两端轴承盖内尤其容易积发。\n\n64. 问：边刷多久换一次？\n答：边刷变形或转速下降时更换，通常3-6个月。成本较低，可常备。\n\n65. 问：拖布怎么清洗和更换？\n答：每次拖地后手洗拖布；可水洗的拖布每1-2个月更换一次（出现发硬、破损）。部分机型支持机洗拖布。\n\n66. 问：传感器需要维护吗？\n答：需要。每月用软布擦拭机身底部悬崖传感器、机身前方红外/视觉传感器、LDS透光罩。灰尘积累会导致误判。\n\n67. 问：充电触点如何保养？\n答：每月用酒精棉片或橡皮擦拭机身及基座充电极片，避免氧化导致回充失败。\n\n68. 问：万向轮怎么清理？\n答：用小螺丝刀或镊子挑出缠绕在轮轴上的毛发，转动灵活即可。若卡死可拆下清洗（参考说明书）。\n\n69. 问：水箱需要特别维护吗？\n答：每次使用后倒空水箱并清洗，防止发霉。每月用柠檬酸浸泡除垢（硬水地区），保证出水畅通。\n\n70. 问：基站底盘如何清洁？\n答：每周取出清洗盘，用湿布或旧牙刷清除积水和污垢；每3个月可加少量洗洁精彻底清洗一次。避免发臭。\n\n71. 问：集尘袋满了怎么办？\n答：更换新的集尘袋，丢弃时注意密封防尘。一般尘满提醒后仍可用几次，但应及时更换以免堵塞。\n\n72. 问：滚刷多久更换一次？\n答：橡胶刷或毛刷6-12个月更换，当刷毛不再直立或胶条出现裂纹时，清洁效果下降。\n\n73. 问：电池寿命多长？如何处理衰减？\n答：通常1.5-2年。当续航减少30%以上时，可联系售后更换原厂电池或购买第三方兼容电池（需注意安全认证）。\n\n74. 问：风机吸力下降可能是什么原因？\n答：尘盒满、滤网堵塞、风道异物（牙签等）、风机损坏。依次排查，清理风道可用软毛刷。\n\n75. 问：长期不用该如何存放？\n答：清空尘盒和水箱，把电池充电至50%后关机，取下拖布并洗净晾干，主机与基站断电，放于阴凉干燥处。\n\n六、故障与问题排查（76-90）\n76. 问：机器人无法开机怎么办？\n答：检查是否电量耗尽，放回基站充电30分钟；清洁充电极片；长按电源键10秒强制重启。\n\n77. 问：机器人不充电或充不进电？\n答：检查基站是否通电，充电触点是否氧化或脏污；尝试用MicroUSB/Type-C线直接给主机充电（若有口）；电池严重亏电需激活（售后处理）。\n\n78. 问：机器人总是回充失败？\n答：调整基站位置（左右1米无遮挡）；擦拭红外传感器；清除充电座前方障碍物；避免阳光直射或强光源干扰。\n\n79. 问：建图不全或楼层地图丢失？\n答：重新快速建图，确保房间门打开；清理传感器；若机器人被推过或断电可能导致地图丢失，注意保存地图到云端。\n\n80. 问：机器人原地打转或走不了直线？\n答：悬崖传感器脏污或驱动轮卡毛发；清洁传感器和轮子；检查驱动轮是否悬空或脱落。\n\n81. 问：滴水不漏，但拖地时不出水？\n答：水箱缺水；水泵故障（可重启主机）；出水嘴堵塞（用针疏通）；水箱未安装到位。\n\n82. 问：机器人莫名卡住不动，报被困？\n答：常见于门槛、落地扇底座、电线堆、低矮家具。清理障碍物，设定相应禁区，或增加越障条。\n\n83. 问：扫地时异响很大？\n答：主刷端盖缠绕异物；滚刷轴承磨损；风机吸入硬物。停机检查并清理。\n\n84. 问：自动集尘时垃圾吸不干净？\n答：集尘袋已满；集尘通道堵塞；主机尘盒盖子未盖紧。清理通道并确保密封。\n\n85. 问：洗拖布后拖布还是脏的？\n答：清洗盘污垢堆积；供水不足；拖布太脏需要手洗预处理。定期清洗基站底盘。\n\n86. 问：机器人在某个区域一直转圈打转？\n答：可能是地面反光强烈（黑色大理石）、悬崖传感器误判。用虚拟墙将该区域圈出，或贴白色胶带改善识别。\n\n87. 问：APP无法连接机器人？\n答：检查WiFi是否2.4GHz（部分不支持5G）；重启路由器和机器人；重置WiFi并重新配对。\n\n88. 问：地图上出现重影或房间错位？\n答：机器人被搬运过或落地窗强反光导致。重新建图或恢复地图备份。\n\n89. 问：机器人撞坏家具？\n答：检查缓冲撞板是否卡住；开启防撞模式（如有）；更新地图并设禁区。\n\n90. 问：如何恢复出厂设置？\n答：APP中删除设备，或同时按住主机上两个按键5秒（不同品牌组合不同，查看说明书）。恢复后需重新建图。\n\n七、耗材与配件（91-95）\n91. 问：一年耗材花费大概多少？\n答：根据使用频率，约200-600元/年。包括主刷（50-100元）、边刷（15-30元/对）、滤网（30-60元）、拖布（20-40元/对）、集尘袋（平均10元/个，月耗10元）。\n\n92. 问：可以用第三方耗材吗？\n答：可以，但要注意尺寸兼容性。部分品牌有RFID芯片识别原厂耗材，强行使用第三方可能导致不计数或报警。\n\n93. 问：拖布可以自己缝制或重复使用吗？\n答：不建议，材质和厚度会影响出水及清洁效果。可水洗拖布寿命2-3个月，更换成本低。\n\n94. 问：滚刷买胶刷好还是毛刷好？\n答：胶刷防缠绕，适合毛发多家庭；毛刷缝隙清洁更干净。可两种都备，按需更换。\n\n95. 问：清洁液必须用原厂的吗？\n答：不一定，选择中性、低泡的地板清洁剂即可，注意不要含漂白剂或腐蚀性成分。加入清水箱前先稀释。\n\n八、高级功能与智能体验（96-100）\n96. 问：AI识别障碍物的实际效果好吗？\n答：在光线良好条件下，大多数能识别电线、袜子、宠物粪便，并进行避让；较细物体（如发绳）可能漏识别。\n\n97. 问：视频通话功能有必要吗？\n答：部分旗舰机型摄像头支持远程视频与宠物互动或查看家中情况。若重视隐私可以禁用。\n\n98. 问：热风烘干拖布需要多久？\n答：一般2-4小时，彻底烘干可防止细菌和异味。部分机型可选烘干时长。\n\n99. 问：如何实现语音控制与场景联动？\n答：接入米家/HomeKit/Google Home等，设置自动化规则，例如离家模式自动启动清扫，或门磁感应后停止工作。\n\n100. 问：未来扫拖机器人会有什么新趋势？\n答：更薄的机身、全能基站成本下放、机械臂辅助捡拾小型垃圾、全链路自清洁（基站自清洁）、更强AI识别、更安静的大吸力、模块化易维修设计。')]-D:\Language\python\大模型\Agent案例\data\扫拖一体机器人100问.txt已经加载知识库，成功
+2026-05-05 14:40:08,978 - agent - INFO - vector_store.py:90 - [+][load_document][Document(metadata={'source': 'D:\\Language\\python\\大模型\\Agent案例\\data\\故障排除.txt'}, page_content='扫地机器人 / 扫拖一体机器人故障排除指南\n扫地机器人和扫拖一体机在日常使用中难免会遇到各种故障。本指南将常见问题分为 电源与充电、导航与避障、清扫与吸力、拖地系统（扫拖一体专用）、集尘与基站、传感器与异响、APP与连接、综合排查流程 八大类，并提供详细的诊断方法和解决步骤，帮助您快速恢复设备的正常使用。\n\n第一章：电源与充电故障\n1.1 机器完全无法开机\n现象：按下电源键无任何反应，指示灯不亮，充电座也不提示。\n\n可能原因：\n\n电池彻底亏电（长时间未使用）\n\n充电触点氧化或脏污\n\n充电座未通电或故障\n\n内部保险丝熔断或主板损坏\n\n排查步骤：\n\n检查充电座：确认充电座电源线插紧，指示灯亮起（通常为绿色或白色）。若不亮，更换插座尝试。\n\n清洁充电触点：用橡皮擦或酒精棉片擦拭机器人底部和充电座上的金属触点，去除氧化层。\n\n强制充电：将机器人手动对准充电座，按压使其紧密接触，保持充电2小时以上。部分机型支持Type-C直充，可尝试用线充激活。\n\n长按复位：找到机器上的复位孔（通常需用卡针长按5-10秒），或在同时按住电源键+回充键10秒强制重启。\n\n检测电池：若以上无效，电池可能已损坏。可拆下电池测量电压（正常应在12-14.4V之间），低于10V需要更换。\n\n预防措施：长期不用时每1-2个月充电一次，保持50%-60%电量存放。\n\n1.2 充电缓慢或充不满\n现象：充电数小时仍显示低电量，或充到80%就停止。\n\n可能原因：\n\n电池老化，内阻增大\n\n环境温度过高或过低（锂电池最佳充电温度5-35℃）\n\n充电座输出电流不足（部分第三方充电座功率低）\n\n主板充电管理电路故障\n\n解决方法：\n\n将机器移至室温环境（15-30℃）充电。\n\n更换原装充电座和线材测试。\n\n若使用超过18个月，直接更换新电池（型号需匹配）。\n\n如果更换电池后问题依旧，可能是主板故障，需送修。\n\n1.3 频繁回充失败\n现象：机器人找不到充电座，或在充电座附近来回移动无法对接。\n\n可能原因：\n\n充电座位置不当：左右1米内被障碍物遮挡，前方1.5米有反射物（镜子、金属）\n\n红外信号干扰：阳光直射、强光源、另一台同类机器干扰\n\n充电座红外发射头脏污或故障\n\n机器人底部的红外接收窗脏污\n\n解决步骤：\n\n重新放置充电座：靠墙放置，左右两侧留出0.5米空间，前方1.5米无遮挡。避免放在角落或楼梯口。\n\n清洁传感器：用软布擦拭充电座上的红外发射窗（通常是暗红色塑料）和机器人前端/底部的红外接收窗。\n\n排除光线干扰：拉上窗帘避免阳光直射，移开充电座附近的镜面、玻璃茶几等。\n\n重启机器人：复位后重新建图，让机器人重新学习充电座位置。\n\n手动引导：将机器人放到充电座前方0.5米处，点击回充，观察对接姿态。若仍失败，可能是充电座主板或红外管损坏。\n\n第二章：导航、避障与卡困故障\n2.1 清扫时乱跑、漏扫严重\n现象：无法规划路径，重复清扫某些区域，遗漏大片区域，甚至碰到墙壁也不转弯。\n\n可能原因：\n\n激光导航机型：激光雷达卡住或电机故障\n\n视觉导航机型：摄像头脏污或光线过暗\n\n陀螺仪失效（老款机型）\n\n悬崖传感器被遮挡导致误判\n\n排查：\n\n检查顶部激光雷达是否旋转。用手轻拨，应有轻微阻尼感且能自动归位。若不转，送修。\n\n清洁LDS透光罩和视觉镜头（用眼镜布轻擦）。\n\n确保家中光线充足（视觉导航）或避免强光直射（激光导航）。\n\n擦拭所有悬崖传感器（底部6个小窗口），并用白纸测试：开机后抬起机体，观察轮子是否立即停止转动。\n\n重新建图：若地图错乱，删除地图后重新快速建图。\n\n2.2 反复碰撞家具，避障迟钝\n现象：直线行驶却直接撞上家具，或者在障碍物前反复轻碰多次。\n\n可能原因：\n\n碰撞缓冲条卡滞（灰尘或异物塞住）\n\n红外或ToF避障传感器脏污\n\n避障功能被关闭（部分APP中可设置）\n\n算法故障\n\n解决：\n\n按压机器前部的缓冲条，应能活动自如并触发微动开关。如有卡滞，用薄片清理缝隙。\n\n用湿布擦拭机身前方的传感器窗口（黑色或灰色区域）。\n\n在APP中检查避障设置，确保灵敏度未设为“低”。\n\n如果避障依赖视觉AI，检查摄像头是否脏污且有足够光照。\n\n2.3 经常卡在低矮家具下、门槛上或线缆处\n现象：机器人被困在沙发底、电视柜下，或卡在推拉门轨道、地毯流苏上，或缠绕数据线无法脱困。\n\n原因分析：\n\n机身厚度大于家具离地高度，被挤压卡死\n\n越障高度不足（标准为1.5-2cm）\n\n地面有松散的电线、窗帘流苏\n\n悬挂底盘被门槛顶起，驱动轮空转\n\n临时解救与永久对策：\n\n解救：先关机，小心取出机器人，清理轮子上的缠绕物。\n\n设置虚拟墙：在APP地图中，对沙发底、门槛、电线区域画禁区或虚拟墙。\n\n物理改造：抬高矮脚家具（加垫片），或给门槛加装斜坡垫（网上有专用橡胶斜坡）。\n\n养成习惯：清扫前收好地面电线、拖鞋、塑料袋等杂物。\n\n检查驱动轮：若驱动轮橡胶胎面磨损打滑，需更换轮胎或整个轮子总成。\n\n2.4 原地打转或不断画圈\n现象：机器人一直转圈，无法直线行走。\n\n可能原因：\n\n悬崖传感器全部或部分脏污，误以为悬空\n\n驱动轮卡死或脱落\n\n陀螺仪/IMU故障\n\n处理：\n\n立即关机，翻转机器，用干布擦拭所有悬崖传感器（通常6个）。\n\n用手转动驱动轮，每个轮子应有阻力且左右对称。若某个轮子完全卡死不转，清除轮轴毛发；若轮子脱出，重新安装到位。\n\n重启后若仍未解决，可能陀螺仪损坏，需返厂校准。\n\n第三章：清扫与吸力故障\n3.1 吸力明显变小，地面残留垃圾\n现象：走过地面仍留有灰尘、毛发，尘盒内垃圾很少。\n\n可能原因：\n\n尘盒已满或滤网堵塞\n\n主刷（滚刷）被毛发严重缠绕\n\n风机进风口被异物堵住\n\n吸力档位被设为“静音”或“节能”\n\n风机损坏\n\n排查流程：\n\n清空尘盒：倒出垃圾，轻敲滤网表面，用吸尘器反向吸滤网。\n\n检查滚刷：取下滚刷，清理两端轴承的毛发，确保刷毛能展开。\n\n检查风道：拆下尘盒后，用手电筒照进风口，看是否有大块异物（如袜子、纸巾、积木）。用长镊子取出。\n\n吸力档位：在APP中调至标准或强力模式测试。\n\n风力测试：开机运行，将手放在出风口（通常在机身侧面或背面），感受风力。若无风或极弱，风机可能烧坏或扇叶断裂。\n\n3.2 滚刷不转或异响\n现象：地面看不到滚刷痕迹，或听到“咔咔”摩擦声。\n\n原因：\n\n毛发缠死滚刷两端，导致电机过载保护停止\n\n滚刷盖板未安装到位，行程开关未触发\n\n滚刷齿轮磨损或断齿\n\n滚刷电机损坏\n\n解决：\n\n彻底清理滚刷及两端轴承盖内的毛发。\n\n重新安装滚刷和盖板，确保卡扣“咔嗒”锁紧。\n\n若齿轮磨损，需更换滚刷总成（部分可单独更换齿轮）。\n\n电机损坏需送修。\n\n3.3 边刷不转或转速异常\n现象：单侧或双侧边刷停转，或者转速忽快忽慢。\n\n原因：\n\n毛发缠绕边刷轴根部\n\n边刷电机齿轮箱积灰或磨损\n\n电路板驱动IC故障\n\n处理：\n\n拆下边刷，用尖嘴钳清理轴上的缠绕物。\n\n手动转动边刷，感觉阻力是否均匀。若跳动严重，更换新边刷（成本低）。\n\n若更换边刷仍不转，可能是电机故障，需更换整个边刷模块。\n\n第四章：拖地系统故障（扫拖一体机专用）\n4.1 不出水或出水极少\n现象：拖地后地面干燥，拖布无明显湿度。\n\n可能原因：\n\n水箱缺水\n\n出水嘴堵塞（水垢或杂质）\n\n水泵损坏或驱动电路故障\n\n水箱未安装到位，气密性差\n\n低温导致水路冻结\n\n解决：\n\n加水：确保水箱满水。\n\n疏通出水嘴：用细针或大头针插入出水孔轻轻搅动，必要时拆下拖布支架，用柠檬酸溶液浸泡出水口10分钟。\n\n检查水箱触点：电控水箱的金属触点是否氧化或变形，清洁后重新安装。\n\n重启水泵校准：部分机型可通过APP“出水校准”或“清洗拖布”功能激活水泵。\n\n防冻：冬季运输或存放时，确保水箱排空，避免结冰损坏水泵。\n\n4.2 拖地后地面太湿，有明显水痕\n现象：地面有积水，拖布滴水，或留下弧形水圈。\n\n原因：\n\n水量档位设置过高\n\n拖布材质吸水差或已板结\n\n水箱渗漏或密封圈老化\n\n地面油污导致水不铺展\n\n解决：\n\nAPP中将水量调至低档。\n\n更换新拖布，选择超细纤维材质的。\n\n检查水箱是否有裂纹，若渗漏需更换水箱。\n\n先用扫地模式或人工去除油污再拖地。\n\n4.3 拖布无法自动清洗（基站机型）\n现象：基站启动洗拖布，但拖布仍脏，或清洗盘有积水。\n\n原因：\n\n基站内清水箱缺水或污水箱已满\n\n清洗盘刮条磨损或堵塞\n\n水泵或水路堵塞\n\n主机与基站对位不准\n\n排查：\n\n检查清水箱水位，污水箱是否已满报警。\n\n取出清洗盘，用刷子清理盘底肋条和排水孔，清除毛发和污垢。\n\n检查主机拖布支架是否安装到位，拖布是否过度磨损导致无法接触刮条。\n\n用注射器向基站供水口注水，看是否能抽排。若不通畅，可能是内部软管堵塞。\n\n重新定位基站，确保主机能顺畅进出。\n\n4.4 拖布无法烘干或烘干不彻底\n现象：热风烘干后拖布仍潮湿、发臭。\n\n原因：\n\n烘干风机故障或滤网堵塞\n\n环境温度太低\n\n烘干时间设置过短\n\n拖布材质过厚\n\n解决：\n\n手动开启烘干功能（APP中），听是否有风机声和发热。若无，送修。\n\n清理烘干进风口滤网。\n\n延长烘干时间至3-4小时，或选高温烘干（50℃以上）。\n\n建议使用原厂薄款拖布。\n\n第五章：自动集尘与基站故障\n5.1 集尘时噪音极大但垃圾吸不进去\n现象：自动集尘启动时发出尖锐啸叫，但主机尘盒内垃圾残留。\n\n原因：\n\n集尘袋已满或堵塞\n\n基站与主机集尘口对接不严\n\n集尘通道内有异物（硬币、牙签）\n\n集尘风机叶轮损坏\n\n处理：\n\n更换新集尘袋，并确保袋子安装到位、密封盖锁紧。\n\n检查主机尘盒盖子是否盖紧，密封胶条是否老化。\n\n拆下基站集尘盖，用手电筒照风道，用软长刷或细铁丝钩出异物。\n\n若仍然无效，可能是风机故障，联系售后。\n\n5.2 基站漏水或底盘积水\n现象：基站周围地面有水渍，清洗盘内长期存水。\n\n原因：\n\n污水箱未插紧或破裂\n\n清洗盘排水孔堵塞\n\n水泵密封老化\n\n上下水版本（如有）水管脱落\n\n解决：\n\n倒空污水箱并重新插入，检查密封圈。\n\n拆下清洗盘，用旧牙刷清理排水孔。\n\n若漏水来自基座内部，需拆开机壳检查管路，建议送修。\n\n上下水用户检查进/排水管接口。\n\n第六章：传感器、异响与异常动作\n6.1 发出高频啸叫或摩擦声\n可能部位：\n\n主刷轴承缺油 → 加少量润滑脂\n\n风机进异物 → 清理风道\n\n边刷电机齿轮磨损 → 更换边刷组件\n\n激光雷达电机噪音 → 清洁或更换\n\n诊断方法：依次拆下边刷、滚刷、尘盒，空转听声源；若仍响，可能为主板供电啸叫（需维修）。\n\n6.2 频繁提示“悬崖传感器异常”或“请擦拭传感器”\n解决：\n\n用干的软布彻底擦拭底部所有圆形窗口。\n\n检查是否在透明玻璃边缘或黑色高光地面上运行（会产生误判），可在此区域放置浅色垫子或设置禁区。\n\n若擦拭后依旧，可能传感器损坏。\n\n6.3 机器在充电座上反复启动、停止\n原因：充电座触点接触不良，导致机器人误认为被拿起。\n\n解决：清洁触点；检查充电座弹簧片是否变形，适当掰高以增加压力；更换充电座。\n\n第七章：APP与网络连接故障\n7.1 无法添加设备或连接Wi-Fi\n原因：\n\nWi-Fi为5G频段（大多数只支持2.4G）\n\n密码包含特殊字符（部分机型不支持）\n\n路由器开启了AP隔离或访客模式\n\nAPP版本过旧\n\n解决：\n\n在路由器设置中开启2.4G频段，或使用手机热点测试（热点名称设为英文）。\n\n修改Wi-Fi密码为纯数字+字母组合，不含@#$等。\n\n关闭路由器中的“多播隔离”“AP隔离”功能。\n\n更新APP至最新版，并授予所有权限（位置、本地网络）。\n\n7.2 地图丢失或房间错乱\n原因：机器人被手动搬运、固件升级失败、电池完全耗尽。\n\n恢复方法：\n\n在APP中查找“地图备份”功能，恢复历史地图。\n\n若无备份，删除所有地图，重新快速建图。\n\n建图前打开所有房门，移走地面杂物。\n\n第八章：综合排查流程（快速自检表）\n问题现象\t第一步\t第二步\t第三步\n不开机\t充电30分钟\t清洁触点\t复位/换电池\n不充电\t检查充电座\t擦拭触点\t用线充测试\n漏扫\t重建地图\t清洁传感器\t检查遮档\n卡困\t清除缠绕物\t设置禁区\t加装斜坡\n吸力小\t倒尘盒\t清理滤网\t清理滚刷\n不出水\t加水\t疏水嘴\t校准水泵\n集尘失败\t换尘袋\t清通道\t检查密封\n拖布不干\t延长烘干\t检查风机\t换薄拖布\n第九章：预防性维护与送修建议\n日常预防：\n\n每次扫前清理地面线缆、塑料袋。\n\n每周清理主刷、边刷、万向轮毛发。\n\n每月清洁传感器、充电触点、基站底盘。\n\n每3个月更换滤网、边刷（视磨损）。\n\n每6-12个月更换主刷、电池（视性能）。\n\n何时送修：\n\n主板故障（无法复位、持续报错）\n\n激光雷达不转或停转\n\n驱动轮电机损坏\n\n水泵完全失效\n\n基站主控板故障\n\n送修前：备份地图，恢复出厂设置，并拍照记录故障现象。保修期内优先联系官方售后，避免自行拆机。')]-D:\Language\python\大模型\Agent案例\data\故障排除.txt已经加载知识库，成功
+2026-05-05 14:40:10,522 - agent - INFO - vector_store.py:90 - [+][load_document][Document(metadata={'source': 'D:\\Language\\python\\大模型\\Agent案例\\data\\维护保养.txt'}, page_content='一、日常维护（每次或每周执行）\n1. 尘盒清理\n每次清扫后 检查尘盒，若超过2/3满则及时倒空。长期不清理会导致吸力下降、滤网堵塞、电机过热。\n\n倒灰时轻拍尘盒，防止灰尘飞散；可用附带的小刷子清理边角。\n\n每周一次：用清水冲洗尘盒（确保电子触点处干燥），完全晾干后再装回，避免霉菌异味。\n\n2. 滤网保养\n滤网（HEPA或海绵）每次倒尘盒时用刷子轻刷表面。\n\n每两周：取出滤网在垃圾桶边缘轻磕，或用吸尘器从出风侧反向吸尘。\n\n滤网严禁水洗（除非明确标注可水洗），否则会破坏纤维结构，造成二次污染。\n\n建议每 3-6个月 更换一次滤网，宠物家庭可缩短至2-3个月。\n\n3. 主刷（滚刷）清洁\n每周 清理缠绕在主刷上的头发、宠物毛和线头。使用附带的小鸟刀割断缠绕物。\n\n检查主刷两端轴承盖，取下后清除积攒的毛发，否则会增加电机阻力、产生异响甚至烧毁电机。\n\n胶刷/毛刷若磨损变形（刷毛不再直立或胶条开裂）需及时更换，寿命约6-12个月。\n\n4. 边刷维护\n每两周 检查边刷是否有变形、打卷，用温水浸泡可恢复部分形状（塑料材质）。\n\n清除边刷转轴处的毛发缠绕，避免转速下降。\n\n边刷通常每 3-6个月 更换一对，成本较低，可常备替换件。\n\n5. 传感器清理\n每月 用干燥软布擦拭机身底部的悬崖传感器（通常4-6个）、前方的碰撞传感器、LDS激光雷达的透光罩。\n\n视觉导航机型：定期用眼镜布轻擦摄像头镜头，避免灰尘影响建图精度。\n\n充电极片（机身和基站触点）氧化时，用橡皮擦或酒精棉片清洁，保证回充成功率。\n\n6. 拖布与水箱保养（针对扫拖一体）\n每次拖地后 立即取下拖布清洗，不可干放。可换洗拖布建议每周用消毒液浸泡10分钟再彻底漂洗。\n\n拖布寿命约2-4个月，磨损后拖地效果下降（出现水痕或漏拖）。\n\n电控水箱：每月检查水箱出水口是否堵塞，用柠檬酸除垢剂清理水垢（特别是硬水地区）。\n\n基站洗拖布底盘：每周取出清洗盘，用湿布清除底部积水和污垢，防止发臭滋生细菌。基站内污水箱每次使用后倒空并冲洗。\n\n二、周期性深度保养（每3-6个月）\n7. 轮子与万向轮\n驱动轮花纹磨损严重会影响越障和爬坡，若胎皮变薄需联系售后更换。\n\n万向轮（前小轮）极易缠绕毛发，用镊子或工具将两侧的毛发清除干净，若转动不灵活应滴入少量硅油（勿用机油）。\n\n轮子轴承若有异响，可能是灰尘进入，可拆下清理（参考说明书）。\n\n8. 激光雷达/导航模块保养\nLDS激光头：用气吹清除激光发射/接收窗口的灰尘，避免激光衰减导致建图错误。\n\n若雷达旋转时发出“嗒嗒”噪音或扫描变慢，可能电机齿轮缺油，需专业人员加润滑脂。\n\n视觉导航的摄像头避免阳光直射，以防传感器老化。\n\n9. 电池健康管理\n锂电池每月至少完成一次完整充放电（用到低电量自动回充再充满），防止容量记忆效应。\n\n长期不用（超过30天）应关机并充电至50-60%存放，置于干燥阴凉处。\n\n当清扫时间比新机减少超过30%时，建议更换电池（通常寿命1.5-2年）。\n\n10. 内部风道与风机\n吸力明显下降时，除了尘盒滤网堵塞，还可能是风道被异物（如牙签、小玩具）卡住。可拆下尘盒，用手电筒照射进风口，用长镊子清除异物。\n\n风机口灰尘堆积可用吸尘器反向吸尘，切勿直接向风机吹气。\n\n三、常见故障及简易维修\n故障现象\t可能原因\t自助维修方法\n无法开机\t电池亏电、触点氧化\t手动充电1小时；清洁充电极片\n反复回充失败\t充电座红外信号被遮挡、地面反光\t调整充电座位置（左右1m无遮挡）；避免阳光直射\n清扫时原地打转\t悬崖传感器脏污、轮子卡住\t擦拭传感器；清理轮子缠绕物\n边刷不转\t毛发缠绕电机轴、齿轮磨损\t清除缠绕物；更换边刷组件\n滚刷异响\t端盖积毛、轴承磨损\t拆下两端盖板清理；若磨损换新滚刷\n拖地不出水\t水箱滤网堵塞、水泵故障\t用针疏通出水口；重启主机校准水箱\n基站集尘失败\t尘袋已满、集尘通道堵塞\t更换尘袋；用长软刷通入集尘口清理\n拖布洗不干净\t洗拖布刮条老化、供水不足\t更换基站清洗盘组件；检查清水箱水量\n四、专业维修建议\n保修期内 任何拆机、电路板维修请务必联系官方售后，自行拆修会丧失保修资格。\n\n常见的需返厂维修问题：主板故障、激光雷达电机损坏、充电电路失效、驱动轮总成更换。\n\n选购 延长保修服务（2-3年）对于全能基站机型较为划算，因为基站电路复杂，维修费用往往超过800元。\n\n建议每 1-2年 携带设备到官方维修点进行一次“全面体检”（部分品牌收费约100-200元），更换磨损齿轮、清洁内部灰尘。\n\n五、保养周期总结表（参考）\n项目\t频率\t动作\n尘盒、滤网\t每周/每次清扫后\t倒尘、刷洗尘盒、轻吹滤网\n主刷、边刷、传感器\t每周\t清理缠绕物、擦拭传感器\n拖布、水箱\t每次拖地后\t清洗拖布、倒空水箱并通风\n充电极片\t每月\t酒精棉片擦拭\n万向轮、风道\t每3个月\t清理内部毛发、检查堵塞\n电池、滚刷胶条\t每6-12个月\t容量测试、更换老化部件\n滤网、边刷\t每3-6个月\t直接更换新品\n专业养护\t每年或出现故障时\t送售后检测、齿轮润滑、固件升级\n遵循上述维修保养内容，一台中高端扫地机器人通常可以使用 3-5年 而不显著衰减清洁能力。定期维护不仅省去昂贵的维修费用，更能保持每天的地面洁净度。请务必保留说明书并按照手册中的拆解图示操作，安全第一。')]-D:\Language\python\大模型\Agent案例\data\维护保养.txt已经加载知识库，成功
+2026-05-05 14:40:13,225 - agent - INFO - vector_store.py:90 - [+][load_document][Document(metadata={'source': 'D:\\Language\\python\\大模型\\Agent案例\\data\\选购指南.txt'}, page_content='一、基础性能与核心参数\n吸力建议选择3000Pa以上，能有效吸起灰尘和毛发。\n\n家用日常清洁，4000-6000Pa足够；有宠物可选8000Pa以上。\n\n吸力并非越大越好，过大可能增加噪音和能耗。\n\n关注吸力是否可多档调节，适应不同地面和清扫频率。\n\n单边刷容易打飞颗粒垃圾，双边刷聚拢效果更好。\n\n胶刷防缠绕适合养宠家庭；毛刷清洁缝隙更干净。\n\n主刷是否支持快拆，方便清理毛发和异物。\n\n滚刷长度越长，单次覆盖面积越大。\n\n边刷长度和形状影响墙角清洁效果。\n\n边刷转速是否可调或智能控速，避免弹飞垃圾。\n\n二、导航与路径规划\n激光导航（LDS）建图快、精度高，不受光线影响。\n\n视觉导航（VSlam）成本低，但暗光环境表现差。\n\n激光+视觉融合导航是目前旗舰机的主流，避障更智能。\n\n陀螺仪惯性导航已经落伍，不建议购买。\n\n导航算法看能否快速识别门窗、沙发、床等障碍物。\n\n是否支持3D地图建模，方便设置虚拟墙或禁区。\n\n建图速度越快，初次清扫效率越高。\n\n可否保存多张地图（复式或多楼层用户必备）。\n\n地图是否支持分区、合并、重命名等编辑功能。\n\n能否在地图上标注家具类型，实现定点清扫。\n\n三、避障能力\n单红外避障效果差，容易碰撞家具。\n\n机械碰撞传感器+红外属于基础配置，易卡困。\n\n结构光避障（如3D ToF）精度高，可识别小型物体。\n\n视觉避障需配合LED补光，暗光下才可用。\n\n双线激光+AI视觉是目前顶配，线缆、鞋袜都能避开。\n\n避障越灵敏，越少出现“推着拖鞋到处跑”的情况。\n\n特别注意能否识别黑色地面、地毯边缘等陷阱。\n\n低矮家具（如电视柜、床底）能否顺利进入。\n\n门槛石、滑轨、地毯流苏处的越障能力测试。\n\n避障策略能否自定义（如“绕行”还是“轻碰”）。\n\n四、越障与通过性\n标准越障高度应≥1.5cm，多数家庭门槛无压力。\n\n部分机型可达2cm，适合老式阳台推拉门轨道。\n\n越障轮子直径越大越好，通常3-4cm较理想。\n\n驱动轮是否有弹簧悬挂，适应不平地面。\n\n爬坡角度一般标注15°-20°，越大越不易打滑。\n\n地毯模式下能否自动增加吸力并抬升拖布。\n\n长毛地毯是否会被卷边，选择地毯识别灵敏的机型。\n\n机身厚度决定能否进入低矮家具底部，≤9cm为佳。\n\n激光雷达凸起高度通常占2-3cm，注意总高度测量。\n\n超薄机型（≤7cm）适合极低床底，但水箱电池会缩水。\n\n五、尘盒与集尘系统\n尘盒容量建议≥300ml，否则频繁倒灰。\n\n宠物家庭尘盒最好≥400ml。\n\n尘盒是否支持一键开盖倒灰，减少扬尘。\n\n滤网等级（HEPA）建议H11以上，防二次污染。\n\n滤网是否可水洗，延长使用寿命。\n\n自动集尘基站能大幅减少手动倒灰频率。\n\n集尘袋容量2.5L-4L，2.5L约可用1-2个月。\n\n集尘袋建议选抗菌材质或抑菌处理。\n\n集尘噪音普遍80-85dB，优先选择噪音优化机型。\n\n基站是否有尘满提示或自动压缩尘盒内垃圾功能。\n\n六、拖地功能\n电控水箱比仿生水箱出水均匀、可控。\n\n高频振动拖地（如3000次/分）对轻度污渍有效。\n\n旋转加压拖地（类似圆盘抹布）清洁力更强。\n\n拖布是否可抬升（≥7mm），避免扫湿地毯。\n\n拖地水量是否可调（高中低三档）。\n\n是否支持单拖/单扫/边扫边拖模式切换。\n\n自动洗拖布基站：是否需要手动清洗抹布。\n\n洗拖布方式：洗刮式比平板搓洗更干净。\n\n洗拖布水温：热风烘干好，高温热水洗效果更好。\n\n拖布烘干是否带热风，冷风容易滋生细菌。\n\n七、基站功能（进阶）\n全功能基站包含：自动集尘、洗拖布、补水、烘干、上下水、抑菌。\n\n是否支持自动添加清洁液/消毒液。\n\n上下水版本适合装修预留或改造阳台。\n\n无上下水时，水箱容量清水箱≥4L，污水箱≥3.5L。\n\n基站自清洁能力：基座底盘能否拆洗。\n\n基站是否有干燥功能，防止积水发霉。\n\n自动补水：主机返回基站时自动给机身水箱补满。\n\n银离子模块或紫外线杀菌是否选配。\n\n基站耗材成本：滤网、清洁刷、集尘袋年均花费。\n\n基站外形尺寸是否适合放在柜子或角落。\n\n八、电池与续航\n电池容量建议≥5200mAh，大户型要6000mAh以上。\n\n能否中途自动回充后断点续扫。\n\n充电时间：快充机型2-3小时充满。\n\n单次清扫面积参考：5200mAh约可扫150-200平。\n\n电池老化后是否便于自行更换。\n\n是否支持锂电保护，防止过充过放。\n\n低电量返回模式能否自定义阈值（比如20%回充）。\n\n耗电与吸力档位相关，强力模式续航减半。\n\n带拖布湿拖时耗电略高于纯扫。\n\n基站充电触点是否防锈防腐蚀。\n\n九、噪音水平\n标准档位噪音宜低于60dB，安静档低于55dB。\n\n最大吸力档通常超过65dB，部分达70dB。\n\n自动集尘瞬间噪音最高，尽量选有降噪结构的。\n\n洗拖布时噪音多在50-60dB可接受。\n\n烘干风机噪音越小越好，尤其卧室使用。\n\n查看评测中的实际分贝，而不是官方数据。\n\n是否能定时清扫，趁家中无人时工作避开噪音。\n\n儿童房/老人房建议选安静模式下的吸力依然够用的型号。\n\n机身是否做隔音棉或风道优化。\n\n滚刷材质和形状也会影响运行噪音。\n\n十、APP与智能功能\n是否支持远程启动、暂停、回充。\n\n能否定时预约或设置自动全屋清扫。\n\n划区清扫、禁区设置（虚拟墙）为必备功能。\n\n能否自定义不同房间的吸力/拖地水量/清扫次数。\n\n家具建模后支持“指哪扫哪”语音或点选。\n\n耗材寿命追踪（滤网、边刷、主刷、拖布）。\n\n是否支持多用户共享控制。\n\n清扫记录与耗电统计图表。\n\n能否与智能家居联动（如回家自动不扫）。\n\n是否支持OTA固件升级，修复Bug或增加新功能。\n\n十一、语音控制与生态\n小爱同学、小度、天猫精灵、Siri捷径兼容性。\n\n是否自带语音助手（直接对扫地机说“去扫地”）。\n\n语音控制是否支持方言或自定义指令。\n\n是否支持Google Assistant / Amazon Alexa（海外版）。\n\n语音反馈音量与音色是否可调。\n\n能否通过语音查询耗材剩余和故障信息。\n\n智能音箱控制是否需要额外购买网关。\n\n是否支持场景联动（如离家一键清扫）。\n\n与门窗传感器联动，无人后自动开始。\n\n若家中无WiFi，是否支持蓝牙或离线开关。\n\n十二、耗材与维护成本\n主刷、边刷、滤网、拖布一年更换成本应提前了解。\n\n胶刷一体式主刷价格通常高于毛刷。\n\n第三方配件是否容易买到且兼容。\n\n滤网建议每3-6个月更换，防堵塞。\n\n边刷磨损快，价格低，可多备。\n\n拖布选可水洗多次的，降低更换频率。\n\n集尘袋一次性成本约5-15元/个。\n\n清洁液原厂价格高，可找通用替代。\n\n基站内部管道是否易堵，清洗复杂度。\n\n耗材是否有RFID限制（防第三方），需注意。\n\n十三、品牌与售后\n科沃斯：产品线丰富，从入门到旗舰全覆盖。\n\n石头：算法优秀，综合体验均衡。\n\n云鲸：拖地洗拖布体验好，但扫拖需手动切换（旧款）。\n\n小米：性价比高，与米家生态融合好。\n\n追觅：吸力大，电机自研，性价比突出。\n\niRobot：双胶刷防缠绕出色，但价格高且地图弱。\n\n360、由利、浦桑尼克等二线品牌需仔细看评测。\n\n售后网点是否覆盖所在城市，支持寄修还是上门。\n\n保修时长通常1-2年，主板和电池保修要问清。\n\n是否提供90天只换不修服务。\n\n线上客服响应速度和专业度评价参考。\n\n过保后维修费用是否合理，零配件易购。\n\n关注品牌官方社区的固件更新频率。\n\n海外品牌需注意电压、说明书语言、APP地区限制。\n\n小众网红品牌谨慎购买，可能缺乏长期固件维护。\n\n十四、不同户型与使用场景\n小户型（<90平）：尘盒、水箱容量不必大，性价比款即可。\n\n大平层（>150平）：必须大电池+自动集尘/洗拖布基站。\n\n复式/别墅：需要保存多张地图，且基站轻便可移动。\n\n养宠家庭：首选胶刷防缠绕+大尘盒+强力吸+自动集尘。\n\n多地毯家庭：拖布抬升+地毯增压+识别长毛地毯。\n\n有幼童/爬行宝宝：选银离子抑菌+热风烘干。\n\n老人使用：选操作简单、带物理按键或明显语音反馈的。\n\n出租房：选入门级，功能基础耐用即可。\n\n极简风/深色地板：注意碰撞缓冲条是否留痕。\n\n开放式厨房：注意防油污，拖布自清洁需强力。\n\n阳台有高门槛：确认越障能力或加装斜坡垫。\n\n全屋木板通铺：选拖地出水少、防泡水保护。\n\n深夜不宜清扫：选安静模式且支持无光运行。\n\n工作日白天无人：预约清扫最实用。\n\n有狭窄过道：机身宽度需<35cm，避免卡住。\n\n十五、安全与隐私\n视觉导航机型摄像头是否会侵犯隐私（可物理遮蔽）。\n\n是否有隐私模式或本地化处理图像不上传云端。\n\n数据加密传输，防止WiFi被劫持。\n\n是否支持断网本地工作（不上传信息）。\n\n扫地机充电是否存在过热、起火隐患（选大品牌）。\n\n基站电源线长度是否够用，需延长线插座。\n\n儿童锁功能防止孩童误触。\n\n楼梯防跌落传感器是否灵敏（复式必要）。\n\n机身外壳阻燃等级V0或V1。\n\n是否通过CCC、CE等安全认证。\n\n十六、评测与验收\n购买前看3-5个真人评测，不只看广告。\n\n关注B站/知乎上的极限测试（咖啡渍、毛发缠绕)。\n\n查看电商差评集中问题（如回充失败、漏扫）。\n\n问客服是否提供试用期，不满意可否退货。\n\n收到后先做沿边清扫测试，看墙角灰尘是否残留。\n\n在地毯和门槛处反复测试是否卡困。\n\n用长发或宠物毛测试主刷缠绕程度。\n\n噪音测试：用手机分贝仪App对比官方数据。\n\n检查水箱是否漏水，拖布安装是否牢固。\n\n建图速度与准确性：是否漏掉某些房间。\n\n避障测试：放几根数据线、袜子看是否会卷入。\n\n回充测试：能否低电量自动找桩，不频繁碰撞。\n\n多楼层测试更换地图是否顺利。\n\n基站洗拖布后，检查抹布洁净度和基站底盘积水。\n\n若支持上下水，检查排水是否顺畅无漏。\n\n十七、价格与购买时机\n入门级（<1500元）：仅扫地+简单拖地，无导航或基础LDS。\n\n中端（1500-3000元）：LDS导航+电控拖地+部分自动集尘。\n\n高端（3000-5000元）：全能基站+视觉避障+自动洗烘。\n\n旗舰（>5000元）：双线激光+AI+热水洗拖布+上下水。\n\n618、双11、年货节通常降价20%-30%。\n\n新品发布3-6个月后价格回落，Bug也修复较多。\n\n拼多多百亿补贴有时比京东便宜，但注意是否新机。\n\n线下实体店可实际听噪音、看厚度，但不一定便宜。\n\n预算有限可选上一代旗舰，性能依然强。\n\n配件套餐：多买一套耗材比单独买划算。\n\n含上下水安装服务的套餐对装修家庭更省心。\n\n尽量不要买“海外翻新机”或二手无保修。\n\n赠品价值（如额外滤网、拖布）可计入总价。\n\n相比早年产品，目前2000元档已够大多数家庭。\n\n不要为不常用的功能（如热水洗地毯）多花钱。\n\n十八、常见误区澄清\n“吸力越大越好”——超过8000Pa未必改善实际清洁，反而更吵。\n\n“扫拖一体一定更好”——部分机型扫拖都不精，不如分开。\n\n“激光导航不怕光”——强阳光直射也会干扰激光雷达。\n\n“自动集尘后就无需维护”——基站本身仍需定期清理。\n\n“所有地毯都能拖布抬升”——长毛地毯依然可能触碰。\n\n“APP越复杂越好”——老年人上手困难，简洁模式更佳。\n\n“进口品牌一定国产强”——中高端国产在算法上已领先。\n\n“价格越贵越耐用”——故障率与设计相关，未必成正比。\n\n“永不缠绕胶刷”——极细或极长毛发依然可能缠住两端。\n\n“买后一劳永逸”——扫地机器人滤网、边刷定期更换才能保持性能。')]-D:\Language\python\大模型\Agent案例\data\选购指南.txt已经加载知识库，成功
+2026-05-05 14:42:06,841 - agent - INFO - vector_store.py:70 - [+][load_document]D:\Language\python\大模型\Agent案例\data\扫地机器人100问.txt内容已经存在知识库内，跳过
+2026-05-05 14:42:06,842 - agent - INFO - vector_store.py:70 - [+][load_document]D:\Language\python\大模型\Agent案例\data\扫拖一体机器人100问.txt内容已经存在知识库内，跳过
+2026-05-05 14:42:06,842 - agent - INFO - vector_store.py:70 - [+][load_document]D:\Language\python\大模型\Agent案例\data\故障排除.txt内容已经存在知识库内，跳过
+2026-05-05 14:42:06,842 - agent - INFO - vector_store.py:70 - [+][load_document]D:\Language\python\大模型\Agent案例\data\维护保养.txt内容已经存在知识库内，跳过
+2026-05-05 14:42:06,842 - agent - INFO - vector_store.py:70 - [+][load_document]D:\Language\python\大模型\Agent案例\data\选购指南.txt内容已经存在知识库内，跳过
+2026-05-05 14:43:08,026 - agent - INFO - vector_store.py:70 - [+][load_document]D:\Language\python\大模型\Agent案例\data\扫地机器人100问.txt内容已经存在知识库内，跳过
+2026-05-05 14:43:08,026 - agent - INFO - vector_store.py:70 - [+][load_document]D:\Language\python\大模型\Agent案例\data\扫拖一体机器人100问.txt内容已经存在知识库内，跳过
+2026-05-05 14:43:08,026 - agent - INFO - vector_store.py:70 - [+][load_document]D:\Language\python\大模型\Agent案例\data\故障排除.txt内容已经存在知识库内，跳过
+2026-05-05 14:43:08,027 - agent - INFO - vector_store.py:70 - [+][load_document]D:\Language\python\大模型\Agent案例\data\维护保养.txt内容已经存在知识库内，跳过
+2026-05-05 14:43:08,027 - agent - INFO - vector_store.py:70 - [+][load_document]D:\Language\python\大模型\Agent案例\data\选购指南.txt内容已经存在知识库内，跳过
+2026-05-05 14:43:36,888 - agent - INFO - vector_store.py:72 - [+][load_document]D:\Language\python\大模型\Agent案例\data\扫地机器人100问.txt内容已经存在知识库内，跳过
+2026-05-05 14:43:36,888 - agent - INFO - vector_store.py:72 - [+][load_document]D:\Language\python\大模型\Agent案例\data\扫拖一体机器人100问.txt内容已经存在知识库内，跳过
+2026-05-05 14:43:36,888 - agent - INFO - vector_store.py:72 - [+][load_document]D:\Language\python\大模型\Agent案例\data\故障排除.txt内容已经存在知识库内，跳过
+2026-05-05 14:43:36,888 - agent - INFO - vector_store.py:72 - [+][load_document]D:\Language\python\大模型\Agent案例\data\维护保养.txt内容已经存在知识库内，跳过
+2026-05-05 14:43:36,889 - agent - INFO - vector_store.py:72 - [+][load_document]D:\Language\python\大模型\Agent案例\data\选购指南.txt内容已经存在知识库内，跳过
+2026-05-05 14:46:45,606 - agent - INFO - vector_store.py:127 - [+][load_document]D:\Language\python\大模型\Agent案例\data\扫地机器人100问.txt already in knowledge base, skip
+2026-05-05 14:46:45,606 - agent - INFO - vector_store.py:127 - [+][load_document]D:\Language\python\大模型\Agent案例\data\扫拖一体机器人100问.txt already in knowledge base, skip
+2026-05-05 14:46:45,606 - agent - INFO - vector_store.py:127 - [+][load_document]D:\Language\python\大模型\Agent案例\data\故障排除.txt already in knowledge base, skip
+2026-05-05 14:46:45,606 - agent - INFO - vector_store.py:127 - [+][load_document]D:\Language\python\大模型\Agent案例\data\维护保养.txt already in knowledge base, skip
+2026-05-05 14:46:45,606 - agent - INFO - vector_store.py:127 - [+][load_document]D:\Language\python\大模型\Agent案例\data\选购指南.txt already in knowledge base, skip
+2026-05-05 15:58:52,808 - agent - WARNING - agent_tools.py:105 - [-][fetch_external_data] 未能检索到用户1001在2025-03的使用
+2026-05-05 16:36:56,516 - agent - INFO - middleware.py:42 - [+][log_before_model]即将调用模型，带有0条信息
+2026-05-05 16:38:01,675 - agent - INFO - middleware.py:42 - [+][log_before_model]即将调用模型，带有0条信息
+2026-05-05 16:38:31,101 - agent - INFO - middleware.py:42 - [+][log_before_model]即将调用模型，带有0条信息
+2026-05-05 16:38:31,101 - agent - DEBUG - middleware.py:48 - [+][log_before_model]HumanMessage | 扫地机器人在我所在地区气温下如何保养
+2026-05-05 16:38:35,301 - agent - INFO - middleware.py:20 - [+][monitor_tool]执行工具:get_user_location
+2026-05-05 16:38:35,301 - agent - INFO - middleware.py:21 - [+][monitor_tool]传入参数:{}
+2026-05-05 16:38:35,302 - agent - INFO - middleware.py:25 - [+][monitor_tool]工具get_user_location调用成功
+2026-05-05 16:38:35,304 - agent - INFO - middleware.py:42 - [+][log_before_model]即将调用模型，带有0条信息
+2026-05-05 16:38:35,304 - agent - DEBUG - middleware.py:48 - [+][log_before_model]ToolMessage | 徐州
+2026-05-05 16:38:37,906 - agent - INFO - middleware.py:20 - [+][monitor_tool]执行工具:get_weather
+2026-05-05 16:38:37,906 - agent - INFO - middleware.py:21 - [+][monitor_tool]传入参数:{'city': '徐州'}
+2026-05-05 16:38:38,724 - agent - INFO - agent_tools.py:73 - [+][get_weather] Weather query successful
+2026-05-05 16:38:38,725 - agent - INFO - middleware.py:25 - [+][monitor_tool]工具get_weather调用成功
+2026-05-05 16:38:38,728 - agent - INFO - middleware.py:42 - [+][log_before_model]即将调用模型，带有0条信息
+2026-05-05 16:38:38,728 - agent - DEBUG - middleware.py:48 - [+][log_before_model]ToolMessage | 徐州 real-time weather: 徐州: ☀️  +29°C
+2026-05-05 16:38:41,836 - agent - INFO - middleware.py:20 - [+][monitor_tool]执行工具:rag_summarize
+2026-05-05 16:38:41,837 - agent - INFO - middleware.py:21 - [+][monitor_tool]传入参数:{'query': '扫地机器人高温环境保养建议'}
+2026-05-05 16:38:44,592 - agent - INFO - middleware.py:25 - [+][monitor_tool]工具rag_summarize调用成功
+2026-05-05 16:38:44,594 - agent - INFO - middleware.py:42 - [+][log_before_model]即将调用模型，带有0条信息
+2026-05-05 16:38:44,594 - agent - DEBUG - middleware.py:48 - [+][log_before_model]ToolMessage | 扫地机器人应避免在高温环境中长时间存放或使用，建议在阴凉干燥处存放，防止电池和电子元件因高温受损；清洁后确保机身干燥再收纳，定期清理尘盒和滤网以维持散热性能。
+2026-05-05 16:45:27,814 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 16:45:27,814 - agent - DEBUG - middleware.py:67 - [+][log_before_model] HumanMessage | 给我生成使用报告
+2026-05-05 16:45:30,302 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: get_user_id
+2026-05-05 16:45:30,302 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {}
+2026-05-05 16:45:30,303 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool get_user_id executed successfully
+2026-05-05 16:45:30,304 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 16:45:30,305 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 1002
+2026-05-05 16:45:32,845 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: get_current_month
+2026-05-05 16:45:32,846 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {}
+2026-05-05 16:45:32,847 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool get_current_month executed successfully
+2026-05-05 16:45:32,849 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 16:45:32,849 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | null
+2026-05-05 16:45:35,014 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: get_month
+2026-05-05 16:45:35,014 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {}
+2026-05-05 16:45:35,015 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool get_month executed successfully
+2026-05-05 16:45:35,017 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 16:45:35,017 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 2025-03
+2026-05-05 16:45:38,024 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: fill_context_for_report
+2026-05-05 16:45:38,024 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {}
+2026-05-05 16:45:38,025 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool fill_context_for_report executed successfully
+2026-05-05 16:45:38,026 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 16:45:38,026 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | [+]fill_context_for_report-已调用
+2026-05-05 16:45:40,830 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: fetch_external_data
+2026-05-05 16:45:40,830 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'user_id': '1002', 'month': '2025-03'}
+2026-05-05 16:45:40,831 - agent - WARNING - agent_tools.py:194 - [-][fetch_external_data] No data for user 1002 in 2025-03
+2026-05-05 16:45:40,831 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool fetch_external_data executed successfully
+2026-05-05 16:45:40,833 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 16:45:42,943 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: get_current_month
+2026-05-05 16:45:42,943 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {}
+2026-05-05 16:45:42,944 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool get_current_month executed successfully
+2026-05-05 16:45:42,945 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 16:45:42,946 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | null
+2026-05-05 16:45:46,548 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: fetch_external_data
+2026-05-05 16:45:46,548 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'user_id': '1002', 'month': '2025-03'}
+2026-05-05 16:45:46,549 - agent - WARNING - agent_tools.py:194 - [-][fetch_external_data] No data for user 1002 in 2025-03
+2026-05-05 16:45:46,550 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool fetch_external_data executed successfully
+2026-05-05 16:45:46,551 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 16:45:49,473 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: rag_summarize
+2026-05-05 16:45:49,473 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'query': '扫地机器人日常保养和维护建议'}
+2026-05-05 16:45:53,729 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool rag_summarize executed successfully
+2026-05-05 16:45:53,730 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 16:45:53,730 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 定期清理滚刷和边刷上的缠绕物，清空尘盒并清洗滤网（若为可水洗类型），检查传感器是否被灰尘遮挡，保持充电座周围无障碍物，避免在潮湿环境中使用，并按照说明书建议周期更换易损件如滤网和刷子。
+2026-05-05 16:45:56,431 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: rag_summarize
+2026-05-05 16:45:56,432 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'query': '提高扫地机器人清洁效率的方法'}
+2026-05-05 16:45:58,960 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool rag_summarize executed successfully
+2026-05-05 16:45:58,962 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 16:45:58,962 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 定期清理滚刷和滤网、及时清空尘盒、保持传感器清洁、合理规划清扫路径、避免在复杂障碍物环境中使用。
+2026-05-05 16:46:01,644 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: rag_summarize
+2026-05-05 16:46:01,644 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'query': '扫地机器人耗材更换周期'}
+2026-05-05 16:46:05,366 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool rag_summarize executed successfully
+2026-05-05 16:46:05,368 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 16:46:05,368 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 扫地机器人耗材更换周期因品牌和使用频率而异，一般建议：边刷每3-6个月更换一次，主刷每6-12个月更换一次，滤网每1-3个月清洗或更换，电池寿命通常为1-2年。具体应参考产品说明书或厂商建议。
+2026-05-05 17:23:33,513 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:23:33,513 - agent - DEBUG - middleware.py:67 - [+][log_before_model] HumanMessage | 我所在城市的天气下机器人如何保养
+2026-05-05 17:23:37,803 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: get_user_location
+2026-05-05 17:23:37,803 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {}
+2026-05-05 17:23:37,804 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool get_user_location executed successfully
+2026-05-05 17:23:37,806 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:23:37,806 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 绍兴
+2026-05-05 17:23:41,763 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: get_weather
+2026-05-05 17:23:41,763 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'city': '绍兴'}
+2026-05-05 17:23:42,381 - agent - INFO - agent_tools.py:73 - [+][get_weather] Weather query successful
+2026-05-05 17:23:42,382 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool get_weather executed successfully
+2026-05-05 17:23:42,385 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:23:42,386 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 绍兴 real-time weather: 绍兴: ☀️  +29°C
+2026-05-05 17:23:46,104 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: rag_summarize
+2026-05-05 17:23:46,105 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'query': '高温晴天 扫地机器人 保养'}
+2026-05-05 17:23:50,868 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool rag_summarize executed successfully
+2026-05-05 17:23:50,871 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:23:50,871 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 高温晴天时，应避免将扫地机器人长时间暴露在阳光下，以防电池过热或内部元件受损；使用后及时清理尘盒、滤网和滚刷，保持机器干燥通风，有助于延长使用寿命。
+2026-05-05 17:26:25,599 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:26:25,600 - agent - DEBUG - middleware.py:67 - [+][log_before_model] HumanMessage | 在当前城市和天气下，如何保养机器人
+2026-05-05 17:26:28,983 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: get_user_location
+2026-05-05 17:26:28,984 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {}
+2026-05-05 17:26:28,986 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool get_user_location executed successfully
+2026-05-05 17:26:29,028 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:26:29,029 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 保定
+2026-05-05 17:26:32,014 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: get_weather
+2026-05-05 17:26:32,015 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'city': '保定'}
+2026-05-05 17:26:33,386 - agent - INFO - agent_tools.py:73 - [+][get_weather] Weather query successful
+2026-05-05 17:26:33,387 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool get_weather executed successfully
+2026-05-05 17:26:33,787 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:26:33,788 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 保定 real-time weather: 保定: ☀️  +33°C
+2026-05-05 17:26:38,660 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: rag_summarize
+2026-05-05 17:26:38,661 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'query': '高温天气下扫地机器人保养方法'}
+2026-05-05 17:26:43,186 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool rag_summarize executed successfully
+2026-05-05 17:26:44,057 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:26:44,058 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 高温天气下应将扫地机器人放置在阴凉通风处，避免阳光直射；定期清理尘盒、滤网和滚刷，防止灰尘堆积影响散热；检查电池状态，避免长时间暴晒导致电池老化或性能下降。
+2026-05-05 17:27:12,344 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:27:12,345 - agent - DEBUG - middleware.py:67 - [+][log_before_model] HumanMessage | 我的使用报告生成
+2026-05-05 17:27:15,989 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: get_user_id
+2026-05-05 17:27:15,990 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {}
+2026-05-05 17:27:15,991 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool get_user_id executed successfully
+2026-05-05 17:27:16,048 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:27:16,049 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 2011
+2026-05-05 17:27:19,385 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: get_current_month
+2026-05-05 17:27:19,385 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {}
+2026-05-05 17:27:19,388 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool get_current_month executed successfully
+2026-05-05 17:27:19,444 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:27:19,445 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | null
+2026-05-05 17:27:22,885 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: get_month
+2026-05-05 17:27:22,886 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {}
+2026-05-05 17:27:22,887 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool get_month executed successfully
+2026-05-05 17:27:22,977 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:27:22,978 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 2025-05
+2026-05-05 17:27:26,986 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: fill_context_for_report
+2026-05-05 17:27:26,986 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {}
+2026-05-05 17:27:26,988 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool fill_context_for_report executed successfully
+2026-05-05 17:27:27,330 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:27:27,331 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | [+]fill_context_for_report-已调用
+2026-05-05 17:27:31,768 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: fetch_external_data
+2026-05-05 17:27:31,768 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'user_id': '2011', 'month': '2025-05'}
+2026-05-05 17:27:31,769 - agent - WARNING - agent_tools.py:194 - [-][fetch_external_data] No data for user 2011 in 2025-05
+2026-05-05 17:27:31,770 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool fetch_external_data executed successfully
+2026-05-05 17:27:31,771 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:27:37,769 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: rag_summarize
+2026-05-05 17:27:37,769 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'query': '扫地机器人日常保养建议'}
+2026-05-05 17:27:41,212 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool rag_summarize executed successfully
+2026-05-05 17:27:41,886 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:27:41,886 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 定期清理滚刷和边刷上的缠绕物，清空尘盒并擦拭滤网，检查传感器是否被灰尘覆盖，保持充电座周围无障碍物，避免在潮湿地面使用。
+2026-05-05 17:27:46,784 - agent - INFO - middleware.py:29 - [+][monitor_tool] Executing tool: rag_summarize
+2026-05-05 17:27:46,785 - agent - INFO - middleware.py:30 - [+][monitor_tool] Parameters: {'query': '提高扫地机器人清洁效率的方法'}
+2026-05-05 17:27:50,065 - agent - INFO - middleware.py:34 - [+][monitor_tool] Tool rag_summarize executed successfully
+2026-05-05 17:27:50,794 - agent - INFO - middleware.py:62 - [+][log_before_model] Preparing to call the large language model
+2026-05-05 17:27:50,795 - agent - DEBUG - middleware.py:67 - [+][log_before_model] ToolMessage | 优化扫地机器人的清洁路径规划、提升吸力强度、定期清理滚刷和滤网、确保传感器清洁以提高避障与导航精度，以及根据地面类型调整清洁模式。

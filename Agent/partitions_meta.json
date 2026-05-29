@@ -1,0 +1,18 @@
+{
+  "mpb8wet5d7veo2t5y": {
+    "name": "Game",
+    "description": "游戏攻略大全",
+    "created_at": "2026-05-18T21:34:05.576562",
+    "file_count": 1,
+    "data_dir": "D:\\Project\\AI\\FileManageAi\\Agent\\data\\partitions\\mpb8wet5d7veo2t5y",
+    "chroma_dir": "D:\\Project\\AI\\FileManageAi\\Agent\\chroma_db\\partitions\\mpb8wet5d7veo2t5y"
+  },
+  "famous_西格蒙德·弗洛伊德": {
+    "name": "西格蒙德·弗洛伊德",
+    "description": "西格蒙德·弗洛伊德的知识库",
+    "created_at": "2026-05-29T18:35:17.933595",
+    "file_count": 2,
+    "data_dir": "D:\\Project\\Psychology\\Agent\\data\\partitions\\famous_西格蒙德·弗洛伊德",
+    "chroma_dir": "D:\\Project\\Psychology\\Agent\\chroma_db\\partitions\\famous_西格蒙德·弗洛伊德"
+  }
+}
