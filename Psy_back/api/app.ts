@@ -22,6 +22,7 @@ import videoRoutes from './routes/videos.js'
 import scaleAnalyzeRoutes from './routes/scaleAnalyze.js'
 import scaleRoutes from './routes/scales.js'
 import famousRoutes from './routes/famous.js'
+import agentRoutes from './routes/agent.js'
 
 // for esm mode
 const __filename = fileURLToPath(import.meta.url)
@@ -45,6 +46,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 // Serve static files from public folder (especially uploads)
 // Assuming public is at root (../public from api folder)
 app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
+// 知识库文件静态服务
+app.use('/knowledge', express.static(path.join(__dirname, '../public/knowledge')));
 
 /**
  * API Routes
@@ -60,6 +63,7 @@ app.use('/api/videos', videoRoutes)
 app.use('/api/scale', scaleAnalyzeRoutes)
 app.use('/api/scales', scaleRoutes)
 app.use('/api/famous', famousRoutes)
+app.use('/api/agent', agentRoutes)
 
 /**
  * health
