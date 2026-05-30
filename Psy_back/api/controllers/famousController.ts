@@ -248,7 +248,7 @@ function getKnowledgeDir(nameOrId: string): string {
   return dir;
 }
 
-// 上传知识库文件 → 直接存入 Agent 分区
+// 上传知识库文件 → 存入 Agent 分区 + 本地兜底
 export const uploadKnowledge = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -268,48 +268,69 @@ export const uploadKnowledge = async (req: Request, res: Response): Promise<void
     const partitionId = `famous_${safeName}`;
     const AGENT_API = process.env.AGENT_API || 'http://localhost:8000';
 
-    // 确保 Agent 分区存在
-    await fetch(`${AGENT_API}/api/partitions`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: partitionId, name: celebrityName, description: `${celebrityName}的知识库` })
-    }).catch(() => console.warn('[Knowledge] 分区创建失败（可能已存在）'));
+    // ====== 检测 Agent 是否可达 ======
+    let agentAvailable = false;
+    try {
+      const ctrl = new AbortController();
+      setTimeout(() => ctrl.abort(), 3000);
+      await fetch(`${AGENT_API}/api/partitions`, { method: 'GET', signal: ctrl.signal });
+      agentAvailable = true;
+    } catch {
+      console.warn('[Knowledge] Agent API 不可达，知识库将仅保存到本地');
+    }
 
+    // ====== 创建 Agent 分区（如果可用） ======
+    if (agentAvailable) {
+      await fetch(`${AGENT_API}/api/partitions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: partitionId, name: celebrityName, description: `${celebrityName}的知识库` })
+      }).catch(() => console.warn('[Knowledge] 分区创建失败（可能已存在）'));
+    }
+
+    // ====== 处理文件：本地兜底 + 尝试上传 Agent ======
     const uploaded: string[] = [];
+    const localDir = getKnowledgeDir(celebrityName);
 
-    // 处理约束文件：本地保留一份（agentController 需要读取），同时上传到 Agent
+    // 约束文件
     if (files.constraint && files.constraint.length > 0) {
       const file = files.constraint[0];
-      // 本地保留 constraint.txt
-      const localDir = getKnowledgeDir(celebrityName);
       const localPath = path.join(localDir, 'constraint.txt');
       fs.copyFileSync(file.path, localPath);
-      // 上传到 Agent
-      await uploadFileToAgent(AGENT_API, partitionId, file.path, 'constraint.txt');
+
+      if (agentAvailable) {
+        try { await uploadFileToAgent(AGENT_API, partitionId, file.path, 'constraint.txt'); } catch {}
+      }
       fs.unlinkSync(file.path);
       uploaded.push('约束文件');
     }
 
-    // 处理知识文件：仅上传到 Agent，不在后端存储
+    // 知识文件（同时保留本地备份）
     if (files.knowledge && files.knowledge.length > 0) {
       const file = files.knowledge[0];
       const ext = path.extname(file.originalname) || '.txt';
-      const agentFileName = `knowledge${ext}`;
-      await uploadFileToAgent(AGENT_API, partitionId, file.path, agentFileName);
+      const localKnowledgePath = path.join(localDir, `knowledge${ext}`);
+      fs.copyFileSync(file.path, localKnowledgePath);
+
+      if (agentAvailable) {
+        try { await uploadFileToAgent(AGENT_API, partitionId, file.path, `knowledge${ext}`); } catch {}
+      }
       fs.unlinkSync(file.path);
       uploaded.push('知识库文件');
     }
 
-    console.log(`[Knowledge] 已上传 ${celebrityName} → Agent 分区 ${partitionId}，文件: ${uploaded.join(', ')}`);
+    console.log(`[Knowledge] ${celebrityName} → Agent=${agentAvailable}, 本地目录=${localDir}, 文件: ${uploaded.join(', ')}`);
 
     res.json({
       success: true,
-      message: `知识库已存入 Agent：${uploaded.join(', ')}`,
-      data: { partition_id: partitionId, files: uploaded }
+      message: agentAvailable
+        ? `知识库已存入 Agent：${uploaded.join(', ')}`
+        : `知识库已保存到本地（Agent 暂不可用）`,
+      data: { partition_id: partitionId, files: uploaded, agent_available: agentAvailable }
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Upload knowledge error:', error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: '上传失败: ' + (error.message || '服务器错误') });
   }
 };
 

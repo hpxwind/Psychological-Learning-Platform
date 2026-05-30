@@ -7,6 +7,7 @@ from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
 from .vector_store import VectorStoreService, partition_manager
 from utils.prompt_loader import load_rag_prompts
+from utils.logger_handler import logger
 from langchain_core.prompts import PromptTemplate
 from model.factory import chat_model
 
@@ -45,8 +46,6 @@ class RagSummarizeService:
         self.partition_id = partition_id
         # 初始化向量存储服务
         self.vector_store = VectorStoreService(partition_id=partition_id)
-        # 从向量库获取文档检索器
-        self.retriever = self.vector_store.get_retriever()
         # 加载 RAG 提示词模板文本
         self.prompt_text = load_rag_prompts()
         # 转换为 LangChain 提示词模板对象
@@ -70,12 +69,14 @@ class RagSummarizeService:
     def retriever_docs(self, query: str) -> List[Document]:
         """
         根据用户问题从向量库检索相关参考文档
+        每次调用动态创建 retriever，避免缓存导致的陈旧连接问题
         Args:
             query: 用户的提问文本
         Returns:
             匹配到的文档对象列表
         """
-        return self.retriever.invoke(query)
+        retriever = self.vector_store.get_retriever()
+        return retriever.invoke(query)
 
     def rag_summarize(self, query: str) -> str:
         """
@@ -123,6 +124,22 @@ def get_rag_service(partition_id: Optional[str] = None) -> RagSummarizeService:
     if cache_key not in _rag_service_cache:
         _rag_service_cache[cache_key] = RagSummarizeService(partition_id=partition_id)
     return _rag_service_cache[cache_key]
+
+
+def clear_rag_cache(partition_id: Optional[str] = None):
+    """
+    清除 RAG 服务缓存，用于文件上传后刷新检索连接
+    :param partition_id: 分区ID，None 表示清除所有缓存
+    """
+    global _rag_service_cache
+    if partition_id:
+        cache_key = partition_id
+        if cache_key in _rag_service_cache:
+            del _rag_service_cache[cache_key]
+            logger.info(f"[+][Cache] Cleared RAG cache for partition: {partition_id}")
+    else:
+        _rag_service_cache.clear()
+        logger.info("[+][Cache] Cleared all RAG caches")
 
 
 # if __name__ == '__main__':

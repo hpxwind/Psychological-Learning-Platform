@@ -16,7 +16,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from rag.vector_store import VectorStoreService, partition_manager
-from rag.rag_service import get_rag_service
+from rag.rag_service import get_rag_service, clear_rag_cache
 
 
 # ============== Pydantic 模型定义 ==============
@@ -208,6 +208,9 @@ async def upload_file(partition_id: str, file: UploadFile = File(...)):
         # 加载文件到向量库
         vs = VectorStoreService(partition_id=partition_id)
         vs.add_file(file_path)
+
+        # 清除该分区的 RAG 缓存，确保后续检索使用最新数据
+        clear_rag_cache(partition_id=partition_id)
 
         logger.info(f"[+][API] File {file_name} uploaded to partition {partition_id}")
 

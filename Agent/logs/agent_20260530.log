@@ -1,0 +1,11 @@
+2026-05-30 18:00:43,859 - agent - INFO - vector_store.py:42 - [+][PartitionManager] Loaded 2 partitions
+2026-05-30 18:00:44,673 - agent - INFO - api_server.py:579 - [+][API] Starting server on 0.0.0.0:8000
+2026-05-30 18:00:44,822 - agent - INFO - api_server.py:76 - [+][API Server] FastAPI server starting...
+2026-05-30 18:03:33,009 - agent - INFO - vector_store.py:42 - [+][PartitionManager] Loaded 2 partitions
+2026-05-30 18:03:53,434 - agent - INFO - api_server.py:521 - [+][API] Celebrity chat: 1 query: 我总是做同一个梦... → answered (3 docs)
+2026-05-30 19:24:43,792 - agent - INFO - vector_store.py:42 - [+][PartitionManager] Loaded 2 partitions
+2026-05-30 19:24:44,452 - agent - INFO - api_server.py:579 - [+][API] Starting server on 0.0.0.0:8000
+2026-05-30 19:24:44,561 - agent - INFO - api_server.py:76 - [+][API Server] FastAPI server starting...
+2026-05-30 19:27:06,424 - agent - INFO - vector_store.py:42 - [+][PartitionManager] Loaded 2 partitions
+2026-05-30 19:27:18,531 - agent - INFO - api_server.py:521 - [+][API] Celebrity chat: 1 query: dsada... → answered (3 docs)
+2026-05-30 20:10:13,086 - agent - INFO - api_server.py:521 - [+][API] Celebrity chat: 1 query: 总是做同一个梦怎么回事... → answered (3 docs)
